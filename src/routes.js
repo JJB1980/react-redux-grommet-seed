@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router';
-import Main from '../containers/main';
+import Hello from './hello/components/home';
 
 export default () =>
-  <Route path="/" component={Main} />;
+  <Route path="/" component={Hello} />;

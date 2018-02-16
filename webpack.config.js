@@ -1,8 +1,10 @@
 const webpack = require('webpack');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const environments = {
   development: {
     context: `${__dirname}/src`,
+    devtool: 'source-map',
     entry: {
       javascript: './app.js',
       html: './index.html'
@@ -17,6 +19,10 @@ const environments = {
         {
           test: /\.html$/,
           loader: 'file?name=[name].[ext]'
+        },
+        {
+          test: /\.scss$/,
+          loaders: [ 'style', 'css?sourceMap', 'sass?sourceMap' ]
         }
       ]
     },
@@ -35,6 +41,7 @@ const environments = {
       javascript: './app.js',
       html: './index.html'
     },
+    devtool: 'source-map',
     module: {
       loaders: [
         {
@@ -45,6 +52,11 @@ const environments = {
         {
           test: /\.html$/,
           loader: 'file?name=[name].[ext]'
+        },
+        ,
+        {
+          test: /\.scss$/,
+          loaders: [ 'style', 'css', 'sass' ]
         }
       ]
     },

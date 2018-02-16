@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import createLogger from 'redux-logger';
-import reducer from '../reducers';
+import reducer from './reducers';
 
 const logger = createLogger({
   level: 'info',
@@ -15,8 +15,8 @@ export default function configureStore(state) {
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
-    module.hot.accept('../reducers', () => {
-      const nextReducer = require('../reducers'); // eslint-disable-line
+    module.hot.accept('./reducers', () => {
+      const nextReducer = require('./reducers'); // eslint-disable-line
       store.replaceReducer(nextReducer);
     });
   }
