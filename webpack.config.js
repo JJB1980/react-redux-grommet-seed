@@ -1,13 +1,15 @@
-const webpack = require('webpack');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const webpack = require('webpack')
 
 const environments = {
   development: {
     context: `${__dirname}/src`,
     devtool: 'source-map',
     entry: {
-      javascript: './app.js',
+      javascript: './app.jsx',
       html: './index.html'
+    },
+    resolve: {
+      extensions: ['', '.js', '.jsx']
     },
     module: {
       loaders: [
@@ -17,12 +19,17 @@ const environments = {
           loaders: ['react-hot', 'babel']
         },
         {
+          test: /\.jsx$/,
+          exclude: /node_modules/,
+          loaders: ['react-hot', 'babel']
+        },
+        {
           test: /\.html$/,
           loader: 'file?name=[name].[ext]'
         },
         {
           test: /\.scss$/,
-          loaders: [ 'style', 'css?sourceMap', 'sass?sourceMap' ]
+          loaders: ['style', 'css?sourceMap', 'sass?sourceMap']
         }
       ]
     },
@@ -50,13 +57,17 @@ const environments = {
           loaders: ['babel']
         },
         {
+          test: /\.jsx$/,
+          exclude: /node_modules/,
+          loaders: ['react-hot', 'babel']
+        },
+        {
           test: /\.html$/,
           loader: 'file?name=[name].[ext]'
         },
-        ,
         {
           test: /\.scss$/,
-          loaders: [ 'style', 'css', 'sass' ]
+          loaders: ['style', 'css?sourceMap', 'sass?sourceMap']
         }
       ]
     },
@@ -68,6 +79,6 @@ const environments = {
       path: `${__dirname}/dist`
     }
   }
-};
+}
 
-module.exports = environments[process.env.NODE_ENV] || environments.development;
+module.exports = environments[process.env.NODE_ENV] || environments.development

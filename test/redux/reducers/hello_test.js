@@ -1,4 +1,4 @@
-import { hello, initialState } from '../../../src/redux/reducers/hello';
+import { hello, initialState } from '../../../src/redux/reducers/hello'
 
 describe('./redux/reducers/hello', () => {
   describe('CHANGE_NAME', () => {
@@ -6,9 +6,9 @@ describe('./redux/reducers/hello', () => {
       const action = {
         type: 'CHANGE_NAME',
         payload: 'garry'
-      };
-      const result = hello(initialState, action);
-      result.name.must.eql('garry');
-    });
-  });
-});
+      }
+      const result = hello(initialState, action)
+      result.name.must.eql('garry')
+    })
+  })
+})

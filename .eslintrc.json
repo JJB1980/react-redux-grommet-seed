@@ -1,4 +1,9 @@
 {
   "parser": "babel-eslint",
-  "extends": "prismatik"
+  "extends": "standard",
+  "globals": {
+    "React": true,
+    "it": true,
+    "describe": true
+  }
 }
