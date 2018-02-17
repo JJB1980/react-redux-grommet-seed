@@ -1,0 +1,9 @@
+#App--menu-toggle {
+  display: none;
+}
+
+@media only screen and (max-width: 720px)  {
+  #App--menu-toggle {
+    display: block;
+  }
+}

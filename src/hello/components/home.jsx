@@ -27,9 +27,17 @@ Home.defaultProps = {
   changeName: null
 }
 
-export default connect(
-  (state) => ({
+function mapStateToProps (state) {
+  return {
     name: getName(state)
-  }),
-  (dispatch) => bindActionCreators({ changeName }, dispatch)
+  }
+}
+
+function mapDispatchToProps (dispatch) {
+  return bindActionCreators({ changeName }, dispatch)
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
 )(Home)

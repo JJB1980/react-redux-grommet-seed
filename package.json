@@ -4,7 +4,7 @@
   "description": "Starter pack for React + Redux + Webpack projects",
   "main": "dist/app.js",
   "scripts": {
-    "dev": "NODE_ENV=development node_modules/.bin/webpack-dev-server --hot --inline --display-error-details",
+    "dev": "NODE_ENV=development node_modules/.bin/webpack-dev-server --hot --inline",
     "build": "NODE_ENV=production node_modules/.bin/webpack",
     "test": "./node_modules/.bin/_mocha",
     "autotest": "./node_modules/.bin/_mocha --watch",
@@ -21,8 +21,16 @@
   },
   "homepage": "https://github.com/JJB1980/react-seed",
   "dependencies": {
+    "babel-plugin-syntax-async-functions": "^6.13.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "classnames": "^2.2.5",
+    "cross-fetch": "^1.1.1",
+    "grommet": "^1.10.1",
     "history": "^2.0.1",
     "immutable": "^3.8.2",
+    "inuit-defaults": "^0.2.3",
+    "inuitcss": "^6.0.0-beta.5",
     "prop-types": "^15.6.0",
     "react": "^0.14.8",
     "react-dom": "^0.14.8",
@@ -49,7 +57,9 @@
     "css-loader": "^0.28.9",
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "extract-text-webpack-plugin": "^3.0.2",
-    "file-loader": "^0.8.4",
+    "file-loader": "^0.8.5",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^2.30.1",
     "mocha": "^2.4.5",
     "must": "^0.13.1",
     "must-jsx": "^2.0.0",
@@ -60,8 +70,8 @@
     "source-map": "^0.7.1",
     "standard": "^10.0.3",
     "style-loader": "^0.20.2",
-    "webpack": "^1.15.0",
-    "webpack-dev-server": "^1.16.5"
+    "webpack": "^3.11.0",
+    "webpack-dev-server": "^2.11.1"
   },
   "engines": {
     "npm": "^3.8.6"

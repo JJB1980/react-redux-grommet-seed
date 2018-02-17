@@ -1,84 +1,59 @@
-const webpack = require('webpack')
+const webpack = require('webpack') // eslint-disable-line
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const path = require('path')
 
-const environments = {
-  development: {
-    context: `${__dirname}/src`,
-    devtool: 'source-map',
-    entry: {
-      javascript: './app.jsx',
-      html: './index.html'
-    },
-    resolve: {
-      extensions: ['', '.js', '.jsx']
-    },
-    module: {
-      loaders: [
-        {
-          test: /\.js$/,
-          exclude: /node_modules/,
-          loaders: ['react-hot', 'babel']
-        },
-        {
-          test: /\.jsx$/,
-          exclude: /node_modules/,
-          loaders: ['react-hot', 'babel']
-        },
-        {
-          test: /\.html$/,
-          loader: 'file?name=[name].[ext]'
-        },
-        {
-          test: /\.scss$/,
-          loaders: ['style', 'css?sourceMap', 'sass?sourceMap']
-        }
-      ]
-    },
-    output: {
-      filename: 'app.js',
-      path: `${__dirname}/dist`
-    },
-    devServer: {
-      port: 9000
-    }
+var config = {
+  context: path.join(__dirname, './src'), // `__dirname` is root of project and `src` is source
+  entry: {
+    app: './app.jsx'
   },
-
-  production: {
-    context: `${__dirname}/src`,
-    entry: {
-      javascript: './app.js',
-      html: './index.html'
-    },
-    devtool: 'source-map',
-    module: {
-      loaders: [
-        {
-          test: /\.js$/,
-          exclude: /node_modules/,
-          loaders: ['babel']
-        },
-        {
-          test: /\.jsx$/,
-          exclude: /node_modules/,
-          loaders: ['react-hot', 'babel']
-        },
-        {
-          test: /\.html$/,
-          loader: 'file?name=[name].[ext]'
-        },
-        {
-          test: /\.scss$/,
-          loaders: ['style', 'css?sourceMap', 'sass?sourceMap']
+  output: {
+    // path: __dirname + '/dist', // `dist` is the destination
+    path: __dirname,
+    // publicPath: "/assets/",
+    filename: 'app.js'
+  },
+  devtool: 'eval-source-map',
+  devServer: {
+    open: true, // to open the local server in browser
+    contentBase: path.join(__dirname, './src')
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, './src', '/index.html')
+    })
+  ],
+  resolve: {
+    extensions: ['.js', '.jsx']
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(html)$/,
+        use: {
+          loader: 'html-loader',
+          options: {
+            attrs: [':data-src']
+          }
         }
-      ]
-    },
-    plugins: [
-      new webpack.optimize.UglifyJsPlugin({ minimize: true })
-    ],
-    output: {
-      filename: 'app.js',
-      path: `${__dirname}/dist`
-    }
+      },
+      {
+        test: /\.(js|jsx)$/, // Check for all js files
+        loader: 'babel-loader',
+        query: {
+          presets: [ 'babel-preset-es2015' ].map(require.resolve)
+        }
+      },
+      {
+        test: /\.scss$/,
+        loaders: ['style-loader', 'css-loader', 'sass-loader?' +
+          'includePaths[]=' +
+          (path.resolve('./node_modules')) +
+          '&includePaths[]=' +
+          (path.resolve('./node_modules/grommet/node_modules'))]
+      }
+    ]
   }
 }
 
-module.exports = environments[process.env.NODE_ENV] || environments.development
+module.exports = config
