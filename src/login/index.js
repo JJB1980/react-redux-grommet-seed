@@ -13,9 +13,9 @@ const initialState = new LoginState()
 export default function reducer (state = initialState, { type, payload }) {
   switch (type) {
     case CHANGE_USERNAME:
-      return state.set('username', payload.username)
+      return state.set('username', payload)
     case CHANGE_PASSWORD:
-      return state.set('password', payload.password)
+      return state.set('password', payload)
     case LOGIN_SUBMITTED:
       return state.set('submitted', true)
     case LOGIN_SUCCESS:
@@ -30,11 +30,11 @@ export default function reducer (state = initialState, { type, payload }) {
 // actions --------------------
 
 export function changeUserName (username) {
-  return { type: CHANGE_USERNAME, payload: { username } }
+  return { type: CHANGE_USERNAME, payload: username }
 }
 
 export function changePassword (password) {
-  return { type: CHANGE_PASSWORD, payload: { password } }
+  return { type: CHANGE_PASSWORD, payload: password }
 }
 
 export function submitted () {
@@ -66,8 +66,6 @@ export function submit () {
     const {login: {username, password}} = getState()
 
     dispatch(submitted())
-
-    console.log(username, password)
 
     const response = await fetch('foo', {
       method: 'POST',

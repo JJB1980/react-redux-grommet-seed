@@ -8,8 +8,11 @@ import Header from 'grommet/components/Header'
 import Sidebar from 'grommet/components/Sidebar'
 import Split from 'grommet/components/Split'
 import Title from 'grommet/components/Title'
-
 import MenuIcon from 'grommet/components/icons/base/Menu'
+
+import { withRouter } from 'react-router-dom'
+
+import Routes from '../routes'
 
 import './App.scss'
 
@@ -29,6 +32,7 @@ export class App extends React.Component {
   }
 
   render () {
+    console.log(this.props)
     return <Grommet>
       <GrommetApp>
         <Header colorIndex='neutral-2'>
@@ -46,7 +50,7 @@ export class App extends React.Component {
             align='center'
             pad='medium'
           >
-            {this.props.children}
+            <Routes/>
           </Box>
         </Split>
       </GrommetApp>
@@ -54,4 +58,4 @@ export class App extends React.Component {
   }
 }
 
-export default App
+export default withRouter(App)

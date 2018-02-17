@@ -12,6 +12,8 @@ import FormFields from 'grommet/components/FormFields'
 import PasswordInput from 'grommet/components/PasswordInput' 
 import TextInput from 'grommet/components/TextInput' 
 
+import {Helmet} from 'react-helmet'
+
 import {changeUserName, changePassword, getUserName, getPassword, submit} from '../'
 
 export class LoginForm extends React.Component {
@@ -40,6 +42,9 @@ export class LoginForm extends React.Component {
     const {username, password} = this.props
 
     return <Form onSubmit={this.handleSubmit}>
+      <Helmet>
+        <title>Login</title>
+      </Helmet>
       <Box pad='small'>
         <FormFields>
           <FormField label='Username'>
