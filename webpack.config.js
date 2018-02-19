@@ -1,17 +1,21 @@
 const webpack = require('webpack') // eslint-disable-line
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 var config = {
   context: path.join(__dirname, './src'), // `__dirname` is root of project and `src` is source
   entry: {
-    app: './app.jsx'
+    app: './app.jsx',
+    vendor: [
+      'react'
+    ]
   },
   output: {
     // path: __dirname + '/dist', // `dist` is the destination
     path: __dirname,
     // publicPath: "/assets/",
-    filename: 'app.js'
+    filename: '[name].[hash].js'
   },
   devtool: 'eval-source-map',
   devServer: {
@@ -21,7 +25,17 @@ var config = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, './src', '/index.html')
-    })
+    }),
+    // new HtmlWebpackPlugin({
+    //   title: 'Caching'
+    // }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor'
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'manifest'
+    }),
+    new ExtractTextPlugin('styles.css')
   ],
   resolve: {
     extensions: ['.js', '.jsx']

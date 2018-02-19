@@ -5,7 +5,7 @@ import Hello from './hello/components/home'
 import LoginForm from './login/components/LoginForm'
 
 const Home = (props) => {
-  console.log(props.match)
+  console.log(props.match.params.arg1)
   return <div>
     <div>Home</div>
     <Link to="/login">Login</Link>
