@@ -1,8 +1,8 @@
 {
-  "name": "react-redux-starter",
+  "name": "react-redux-grommet-seed",
   "version": "2.0.4",
-  "description": "Starter pack for React + Redux + Webpack projects",
-  "main": "dist/app.js",
+  "description": "React + Redux + Grommet seed",
+  "main": "src/app.jsx",
   "scripts": {
     "dev": "NODE_ENV=development node_modules/.bin/webpack-dev-server --hot --inline --config webpack.dev.js",
     "build": "NODE_ENV=production node_modules/.bin/webpack --config webpack.prod.js",
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/JJB1980/react-seed.git"
+    "url": "https://github.com/JJB1980/react-redux-grommet-seed.git"
   },
   "author": "John <info@bowdentechnology.com.au>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/JJB1980/react-seed/issues"
+    "url": "https://github.com/JJB1980/react-redux-grommet-seed/issues"
   },
-  "homepage": "https://github.com/JJB1980/react-seed",
+  "homepage": "https://github.com/JJB1980/react-redux-grommet-seed",
   "dependencies": {
     "babel-plugin-syntax-async-functions": "^6.13.0",
     "babel-polyfill": "^6.26.0",
@@ -29,8 +29,6 @@
     "grommet": "^1.10.1",
     "history": "^2.0.1",
     "immutable": "^3.8.2",
-    "inuit-defaults": "^0.2.3",
-    "inuitcss": "^6.0.0-beta.5",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
@@ -62,6 +60,7 @@
     "file-loader": "^0.8.5",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^2.30.1",
+    "jslint": "^0.12.0",
     "mocha": "^2.4.5",
     "must": "^0.13.1",
     "must-jsx": "^2.0.0",

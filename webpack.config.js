@@ -36,7 +36,7 @@ var config = {
     }),
     new ExtractTextPlugin({
       filename: 'styles.[chunkhash].css',
-      allChunks: true,
+      allChunks: true
     })
   ],
   resolve: {
@@ -60,12 +60,12 @@ var config = {
           presets: [ 'babel-preset-es2015' ].map(require.resolve)
         }
       },
-      { 
-        test: /\.scss$/, 
+      {
+        test: /\.scss$/,
         loader: ExtractTextPlugin.extract([
           'css-loader', 'sass-loader?includePaths[]=' + (path.resolve('./node_modules')) +
               '&includePaths[]=' + path.resolve('./node_modules/grommet/node_modules')
-        ]),
+        ])
       }
     ]
   }
