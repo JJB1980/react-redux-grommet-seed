@@ -36,7 +36,7 @@ export class App extends React.Component {
     return <Grommet>
       <GrommetApp>
         <Header colorIndex='neutral-2'>
-          <Button id='App--menu-toggle' icon={<MenuIcon />} onClick={this.toggleSidebar} />
+          <Button id='App__menu-toggle' icon={<MenuIcon />} onClick={this.toggleSidebar} />
           <Title pad='small'>
             Sample Title
           </Title>
