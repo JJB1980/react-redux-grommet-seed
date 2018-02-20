@@ -12,8 +12,7 @@ var config = {
     ]
   },
   output: {
-    // path: __dirname + '/dist', // `dist` is the destination
-    path: __dirname,
+    path: path.resolve(__dirname, 'dist'),
     // publicPath: "/assets/",
     filename: '[name].[hash].js'
   },
@@ -35,7 +34,10 @@ var config = {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest'
     }),
-    new ExtractTextPlugin('styles.css')
+    new ExtractTextPlugin({
+      filename: 'styles.[chunkhash].css',
+      allChunks: true,
+    })
   ],
   resolve: {
     extensions: ['.js', '.jsx']
@@ -58,13 +60,12 @@ var config = {
           presets: [ 'babel-preset-es2015' ].map(require.resolve)
         }
       },
-      {
-        test: /\.scss$/,
-        loaders: ['style-loader', 'css-loader', 'sass-loader?' +
-          'includePaths[]=' +
-          (path.resolve('./node_modules')) +
-          '&includePaths[]=' +
-          (path.resolve('./node_modules/grommet/node_modules'))]
+      { 
+        test: /\.scss$/, 
+        loader: ExtractTextPlugin.extract([
+          'css-loader', 'sass-loader?includePaths[]=' + (path.resolve('./node_modules')) +
+              '&includePaths[]=' + path.resolve('./node_modules/grommet/node_modules')
+        ]),
       }
     ]
   }
