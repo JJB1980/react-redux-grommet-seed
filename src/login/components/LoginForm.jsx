@@ -2,16 +2,16 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import Anchor from 'grommet/components/Anchor'
 import Box from 'grommet/components/Box'
 import Button from 'grommet/components/Button'
 import Form from 'grommet/components/Form'
 import FormField from 'grommet/components/FormField'
 import FormFields from 'grommet/components/FormFields'
-import PasswordInput from 'grommet/components/PasswordInput' 
-import TextInput from 'grommet/components/TextInput' 
+import PasswordInput from 'grommet/components/PasswordInput'
+import TextInput from 'grommet/components/TextInput'
 
 import {Helmet} from 'react-helmet'
+import {Link } from 'react-router-dom'
 
 import {changeUserName, changePassword, getUserName, getPassword, submit} from '../'
 
@@ -55,7 +55,7 @@ export class LoginForm extends React.Component {
         </FormFields>
       </Box>
       <Box pad='small' align='end'>
-        <Anchor label='Forgot your password?' href='#/hello'/>
+        <Link to='hello'>Forgot your password?</Link>
       </Box>
       <Box pad='small'>
         <Button fill label='Login' primary type='submit' />

@@ -4,7 +4,7 @@
   "description": "React + Redux + Grommet seed",
   "main": "src/app.jsx",
   "scripts": {
-    "dev": "NODE_ENV=development node_modules/.bin/webpack-dev-server --hot --inline --config webpack.dev.js",
+    "dev": "NODE_ENV=development node_modules/.bin/webpack-dev-server --open=false --hot --history-api-fallback --config webpack.dev.js",
     "build": "NODE_ENV=production node_modules/.bin/webpack --config webpack.prod.js",
     "test": "./node_modules/.bin/_mocha",
     "autotest": "./node_modules/.bin/_mocha --watch",
