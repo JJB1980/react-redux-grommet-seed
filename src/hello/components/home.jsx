@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import {Link } from 'react-router-dom'
 
 import { changeName, getName } from '../index'
 import './styles.scss'
@@ -14,6 +15,7 @@ const Home = ({ name, changeName }) => {
   return (<div>
     <input value={name} type="text" onChange={onChangeName} />
     <p className="test">Hello {name}</p>
+    <Link to="test/1">something</Link>
   </div>)
 }
 

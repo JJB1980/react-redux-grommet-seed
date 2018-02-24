@@ -13,6 +13,7 @@ import MenuIcon from 'grommet/components/icons/base/Menu'
 import { withRouter } from 'react-router-dom'
 
 import Routes from '../routes'
+import Login from '../login/components/LoginForm'
 
 import './App.scss'
 
@@ -32,7 +33,14 @@ export class App extends React.Component {
   }
 
   render () {
-    console.log(this.props)
+  console.log(this.props)
+    if (this.props.location && this.props.location.pathname && this.props.location.pathname.indexOf('login') >= 0) {
+      console.log('login :::')
+      return <GrommetApp>
+        <Login />
+      </GrommetApp>
+    }
+
     return <Grommet>
       <GrommetApp>
         <Header colorIndex='neutral-2'>
@@ -45,7 +53,7 @@ export class App extends React.Component {
           <Sidebar colorIndex='neutral-1' size='small'>
             menu
           </Sidebar>
-          <Box 
+          <Box
             justify='center'
             align='center'
             pad='medium'

@@ -40,27 +40,29 @@ export class LoginForm extends React.Component {
   render () {
     const {username, password} = this.props
 
-    return <Form onSubmit={this.handleSubmit}>
-      <Helmet>
-        <title>Login</title>
-      </Helmet>
-      <Box pad='small'>
-        <FormFields>
-          <FormField label='Username'>
-            <TextInput value={username} onDOMChange={this.handleChangeUserName} />
-          </FormField>
-          <FormField label='Password'>
-            <PasswordInput value={password} onChange={this.handleChangePassword} />
-          </FormField>
-        </FormFields>
-      </Box>
-      <Box pad='small' align='end'>
-        <Link to='hello'>Forgot your password?</Link>
-      </Box>
-      <Box pad='small'>
-        <Button fill label='Login' primary type='submit' />
-      </Box>
-  </Form>
+    return <Box basis='full' align='center' margin={{top: 'large'}} pad='medium'>
+      <Form onSubmit={this.handleSubmit}>
+        <Helmet>
+          <title>Login</title>
+        </Helmet>
+        <Box pad='small'>
+          <FormFields>
+            <FormField label='Username'>
+              <TextInput value={username} onDOMChange={this.handleChangeUserName} />
+            </FormField>
+            <FormField label='Password'>
+              <PasswordInput value={password} onChange={this.handleChangePassword} />
+            </FormField>
+          </FormFields>
+        </Box>
+        <Box pad='small' align='end'>
+          <Link to='hello'>Forgot your password?</Link>
+        </Box>
+        <Box pad='small'>
+          <Button fill label='Login' primary type='submit' />
+        </Box>
+      </Form>
+    </Box>
   }
 }
 
