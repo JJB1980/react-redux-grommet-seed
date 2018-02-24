@@ -1,8 +1,12 @@
 import React from 'react'
+import { Provider } from 'react-redux'
+import {BrowserRouter as Router } from 'react-router-dom'
 
 import GrommetApp from 'grommet/components/App'
 
 import {App} from '../../../src/components/App'
+import {LoginForm} from '../../../src/login/components/LoginForm'
+import configureStore from '../../../src/store'
 
 describe('<App />', () => {
   let wrapper
@@ -27,14 +31,20 @@ describe('<App />', () => {
     expect(wrapper.find('Split').exists()).to.be.true()
   })
 
-  it.skip('should render Login', () => {
+  it('should render Login', () => {
     const props = {
       location: {
         pathname: '/login'
       }
     }
-    wrapper = shallow(<App props={props} />)
-    expect(wrapper.find('Login').exists()).to.be.true()
+    const store = configureStore()
+    const component = <Provider store={store}>
+      <Router>
+        <App {...props}/>
+      </Router>
+    </Provider>
+    wrapper = mount(component)
+    expect(wrapper.find(LoginForm).exists()).to.be.true()
   })
 
 })
