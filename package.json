@@ -8,7 +8,8 @@
     "build": "NODE_ENV=production node_modules/.bin/webpack --config webpack.prod.js",
     "test": "./node_modules/.bin/mocha ./test/suite/**/* --recursive --require ignore-styles --require ./test/bootstrap.js",
     "autotest": "./node_modules/.bin/mocha ./test/suite/**/* --recursive --require ignore-styles --require ./test/bootstrap.js --watch",
-    "lint": "node_modules/eslint/bin/eslint.js . --fix"
+    "lint": "node_modules/.bin/eslint . --fix",
+    "coverage": "node_modules/.bin/nyc npm test"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,11 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/JJB1980/react-redux-grommet-seed/issues"
+  },
+  "nyc": {
+    "extension": [
+      ".jsx"
+    ]
   },
   "homepage": "https://github.com/JJB1980/react-redux-grommet-seed",
   "dependencies": {
