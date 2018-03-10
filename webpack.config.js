@@ -13,7 +13,7 @@ var config = {
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    publicPath: "/",
+    publicPath: '/',
     filename: '[name].[hash].js'
   },
   devtool: 'eval-source-map',
