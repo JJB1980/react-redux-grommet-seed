@@ -48,7 +48,7 @@ export class App extends React.Component {
           </Title>
         </Header>
         <Split flex='right' priority={this.state.sidebar ? 'left' : 'right'}>
-          <Sidebar colorIndex='neutral-1' size='small'>
+          <Sidebar colorIndex='neutral-1' size='small' onClick={this.toggleSidebar}>
             menu
           </Sidebar>
           <Box

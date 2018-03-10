@@ -1,8 +1,8 @@
 {
   "plugins": [
-    "babel-plugin-transform-object-rest-spread", 
+    "babel-plugin-transform-object-rest-spread",
     "transform-react-jsx",
     "syntax-async-functions"
   ],
-  "presets": ["es2015", "stage-0", "react"]
+  "presets": ["env", "es2015", "stage-0", "react"]
 }
