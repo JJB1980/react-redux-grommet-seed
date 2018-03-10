@@ -14,6 +14,7 @@ import { withRouter } from 'react-router-dom'
 
 import Routes from '../routes'
 import LoginForm from '../login/components/LoginForm'
+import { location } from '../utils'
 
 import './App.scss'
 
@@ -33,7 +34,7 @@ export class App extends React.Component {
   }
 
   render () {
-    if (this.props.location && this.props.location.pathname && this.props.location.pathname.indexOf('login') >= 0) {
+    if (location(this.props, 'login')) {
       return <GrommetApp>
         <LoginForm />
       </GrommetApp>
@@ -41,14 +42,14 @@ export class App extends React.Component {
 
     return <Grommet>
       <GrommetApp>
-        <Header colorIndex='neutral-2'>
+        <Header className='full-width' colorIndex='neutral-2'>
           <Button id='App__menu-toggle' icon={<MenuIcon />} onClick={this.toggleSidebar} />
           <Title pad='small'>
-            Sample Title
+            Grommet App
           </Title>
         </Header>
-        <Split flex='right' priority={this.state.sidebar ? 'left' : 'right'}>
-          <Sidebar colorIndex='neutral-1' size='small' onClick={this.toggleSidebar}>
+        <Split className='full-width' flex='right' priority={this.state.sidebar ? 'left' : 'right'}>
+          <Sidebar colorIndex='neutral-1' pad='medium' size='small' onClick={this.toggleSidebar}>
             menu
           </Sidebar>
           <Box
