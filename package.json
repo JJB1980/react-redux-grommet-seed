@@ -25,6 +25,12 @@
       ".jsx"
     ]
   },
+  "standard": {
+    "plugins": [
+      "html"
+    ],
+    "parser": "babel-eslint"
+  },
   "homepage": "https://github.com/JJB1980/react-redux-grommet-seed",
   "dependencies": {
     "babel-plugin-syntax-async-functions": "^6.13.0",
@@ -73,6 +79,7 @@
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.18.2",
+    "eslint-plugin-html": "^4.0.2",
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^0.8.5",

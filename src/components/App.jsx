@@ -41,25 +41,27 @@ export class App extends React.Component {
     }
 
     return <Grommet>
-      <GrommetApp>
-        <Header className='full-width' colorIndex='neutral-2'>
-          <Button id='App__menu-toggle' icon={<MenuIcon />} onClick={this.toggleSidebar} />
-          <Title pad='small'>
-            Grommet App
-          </Title>
-        </Header>
-        <Split className='full-width' flex='right' priority={this.state.sidebar ? 'left' : 'right'}>
-          <Sidebar colorIndex='neutral-1' pad='medium' size='small' onClick={this.toggleSidebar}>
-            menu
-          </Sidebar>
-          <Box
-            justify='center'
-            align='center'
-            pad='medium'
-          >
-            <Routes/>
-          </Box>
-        </Split>
+      <GrommetApp centered={false}>
+        <Box>
+          <Header colorIndex='neutral-2'>
+            <Button id='App__menu-toggle' icon={<MenuIcon />} onClick={this.toggleSidebar} />
+            <Title pad='small'>
+              Grommet App
+            </Title>
+          </Header>
+          <Split className='full-width' flex='right' priority={this.state.sidebar ? 'left' : 'right'}>
+            <Sidebar colorIndex='neutral-1' pad='medium' size='small' onClick={this.toggleSidebar}>
+              menu
+            </Sidebar>
+            <Box
+              justify='center'
+              align='center'
+              pad='medium'
+            >
+              <Routes/>
+            </Box>
+          </Split>
+        </Box>
       </GrommetApp>
     </Grommet>
   }
