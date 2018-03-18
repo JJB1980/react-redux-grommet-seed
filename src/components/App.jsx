@@ -58,7 +58,7 @@ export class App extends React.Component {
               align='center'
               pad='medium'
             >
-              <Routes/>
+              <Routes />
             </Box>
           </Split>
         </Box>

@@ -40,11 +40,10 @@ describe('<App />', () => {
     const store = configureStore()
     const component = <Provider store={store}>
       <Router>
-        <App {...props}/>
+        <App {...props} />
       </Router>
     </Provider>
     wrapper = mount(component)
     expect(wrapper.find(LoginForm).exists()).to.be.true()
   })
-
 })

@@ -8,17 +8,17 @@ const Home = (props) => {
   console.log(props.match.params.arg1)
   return <div>
     <div>Home</div>
-    <Link to="/login">Login</Link>
+    <Link to='/login'>Login</Link>
   </div>
 }
 
 export default () => {
   return (
     <div>
-      <Route exact path="/" component={Home}/>
-      <Route exact path="/test/:arg1" component={Home}/>
-      <Route exact path="/hello" component={Hello} />
-      <Route exact path="/login" component={LoginForm} />
+      <Route exact path='/' component={Home} />
+      <Route exact path='/test/:arg1' component={Home} />
+      <Route exact path='/hello' component={Hello} />
+      <Route exact path='/login' component={LoginForm} />
     </div>
   )
 }

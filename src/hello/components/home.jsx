@@ -13,9 +13,9 @@ const Home = ({ name, changeName }) => {
   }
 
   return (<div>
-    <input value={name} type="text" onChange={onChangeName} />
-    <p className="test">Hello {name}</p>
-    <Link to="test/1">something</Link>
+    <input value={name} type='text' onChange={onChangeName} />
+    <p className='test'>Hello {name}</p>
+    <Link to='test/1'>something</Link>
   </div>)
 }
 
