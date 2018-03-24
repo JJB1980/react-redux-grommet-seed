@@ -1,5 +1,4 @@
-import fetch from 'cross-fetch'
-
+import {fetchUtil} from '../utils'
 import { LoginState } from './records'
 
 const CHANGE_USERNAME = 'CHANGE_USERNAME'
@@ -14,14 +13,19 @@ export default function reducer (state = initialState, { type, payload }) {
   switch (type) {
     case CHANGE_USERNAME:
       return state.set('username', payload)
+
     case CHANGE_PASSWORD:
       return state.set('password', payload)
+
     case LOGIN_SUBMITTED:
       return state.set('submitted', true)
+
     case LOGIN_SUCCESS:
       return state.merge({response: payload, submitted: false})
+
     case LOGIN_FAILURE:
       return state.merge({error: payload, submitted: false})
+
     default:
       return state
   }
@@ -67,10 +71,7 @@ export function submit () {
 
     dispatch(submitted())
 
-    const response = await fetch('foo', {
-      method: 'POST',
-      body: JSON.stringify({username, password})
-    })
+    const response = await fetchUtil('auth/login', {email: username, password})
 
     console.log(response.status)
 

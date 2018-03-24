@@ -10,8 +10,8 @@ import FormFields from 'grommet/components/FormFields'
 import PasswordInput from 'grommet/components/PasswordInput'
 import TextInput from 'grommet/components/TextInput'
 
-import {Helmet} from 'react-helmet'
-import {Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet'
+import { Link } from 'react-router-dom'
 
 import {changeUserName, changePassword, getUserName, getPassword, submit} from '../'
 
@@ -48,7 +48,7 @@ export class LoginForm extends React.Component {
         <Box pad='small'>
           <FormFields>
             <FormField label='Username'>
-              <TextInput value={username} onDOMChange={this.handleChangeUserName} />
+              <TextInput autoFocus value={username} onDOMChange={this.handleChangeUserName} />
             </FormField>
             <FormField label='Password'>
               <PasswordInput value={password} onChange={this.handleChangePassword} />
