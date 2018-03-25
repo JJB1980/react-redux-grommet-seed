@@ -6,6 +6,7 @@ const CHANGE_PASSWORD = 'CHANGE_PASSWORD'
 const LOGIN_SUBMITTED = 'LOGIN_SUBMITTED'
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 const LOGIN_FAILURE = 'LOGIN_FAILURE'
+const SET_TOKEN = 'SET_TOKEN'
 
 const initialState = new LoginState()
 
@@ -21,10 +22,13 @@ export default function reducer (state = initialState, { type, payload }) {
       return state.set('submitted', true)
 
     case LOGIN_SUCCESS:
-      return state.merge({response: payload, submitted: false})
+      return state.merge({token: payload, submitted: false, error: null})
 
     case LOGIN_FAILURE:
       return state.merge({error: payload, submitted: false})
+
+    case SET_TOKEN:
+      return state.set('token', payload)
 
     default:
       return state
@@ -53,6 +57,10 @@ export function success (response) {
   return { type: LOGIN_SUCCESS, payload: response }
 }
 
+export function setToken (token) {
+  return { type: SET_TOKEN, payload: token }
+}
+
 // selectors ------------------
 
 export function getUserName (state) {
@@ -63,22 +71,38 @@ export function getPassword (state) {
   return state.login.name
 }
 
+export function getError (state) {
+  return state.login.error
+}
+
+export function getSubmitted (state) {
+  return state.login.submitted
+}
+
+export function getToken (state) {
+  return state.login.token
+}
+
 // thunks -----------
 
 export function submit () {
-  return async (dispatch, getState) => {
+  return async (dispatch, getState, {localStorage}) => {
     const {login: {username, password}} = getState()
 
     dispatch(submitted())
 
-    const response = await fetchUtil('auth/login', {email: username, password})
+    const response = await fetchUtil('auth/login', 'POST', {email: username, password})
 
     console.log(response.status)
 
     if (response.status !== 200) {
-      dispatch(failure(response))
+      const {error} = await response.json()
+      localStorage.setItem('token', null)
+      dispatch(failure(error))
     } else {
-      dispatch(success(response))
+      const {token} = await response.json()
+      localStorage.setItem('token', token)
+      dispatch(success(token))
     }
   }
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { withRouter } from 'react-router-dom'
 
 import Box from 'grommet/components/Box'
 import Button from 'grommet/components/Button'
@@ -9,11 +10,22 @@ import FormField from 'grommet/components/FormField'
 import FormFields from 'grommet/components/FormFields'
 import PasswordInput from 'grommet/components/PasswordInput'
 import TextInput from 'grommet/components/TextInput'
+import Notification from 'grommet/components/Notification'
+import Spinning from 'grommet/components/icons/Spinning'
 
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 
-import {changeUserName, changePassword, getUserName, getPassword, submit} from '../'
+import {
+  changeUserName,
+  changePassword,
+  getError,
+  getSubmitted,
+  getUserName,
+  getPassword,
+  getToken,
+  submit
+} from '../'
 
 export class LoginForm extends React.Component {
   constructor (props) {
@@ -22,6 +34,22 @@ export class LoginForm extends React.Component {
     this.handleChangeUserName = this.handleChangeUserName.bind(this)
     this.handleChangePassword = this.handleChangePassword.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  componentDidMount () {
+    const {token, history} = this.props
+
+    if (token) {
+      history.push('/')
+    }
+  }
+
+  componentWillUpdate (newProps) {
+    const {token, history} = newProps
+
+    if (token && token !== this.props.token) {
+      history.push('/')
+    }
   }
 
   handleChangeUserName (event) {
@@ -38,7 +66,7 @@ export class LoginForm extends React.Component {
   }
 
   render () {
-    const {username, password} = this.props
+    const {username, password, error, submitted, token, history} = this.props
 
     return <Box basis='full' align='center' margin={{top: 'large'}} pad='medium'>
       <Form onSubmit={this.handleSubmit}>
@@ -55,6 +83,8 @@ export class LoginForm extends React.Component {
             </FormField>
           </FormFields>
         </Box>
+        {error && <Notification status='warning' message={error} />}
+        {submitted && <Spinning />}
         <Box pad='small' align='end'>
           <Link to='hello'>Forgot your password?</Link>
         </Box>
@@ -69,7 +99,10 @@ export class LoginForm extends React.Component {
 function mapStateToProps (state) {
   return {
     username: getUserName(state),
-    password: getPassword(state)
+    password: getPassword(state),
+    error: getError(state),
+    submitted: getSubmitted(state),
+    token: getToken(state)
   }
 }
 
@@ -77,7 +110,7 @@ function mapDispatchToProps (dispatch) {
   return bindActionCreators({changeUserName, changePassword, submit}, dispatch)
 }
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(LoginForm)
+)(LoginForm))

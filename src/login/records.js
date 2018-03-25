@@ -4,6 +4,6 @@ export const LoginState = new Record({
   username: '',
   password: '',
   submitted: false,
-  error: false,
-  response: null
+  error: null,
+  token: localStorage.getItem('token')
 }, 'LoginState')
