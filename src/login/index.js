@@ -92,15 +92,12 @@ export function submit () {
     dispatch(submitted())
 
     const response = await fetchUtil('auth/login', 'POST', {email: username, password})
+    const {error, token} = await response.json()
 
-    console.log(response.status)
-
-    if (response.status !== 200) {
-      const {error} = await response.json()
-      localStorage.setItem('token', null)
+    if (error) {
+      localStorage.setItem('token', '')
       dispatch(failure(error))
     } else {
-      const {token} = await response.json()
       localStorage.setItem('token', token)
       dispatch(success(token))
     }

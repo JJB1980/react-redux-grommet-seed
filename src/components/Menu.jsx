@@ -3,14 +3,14 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import GrommetMenu from 'grommet/components/Menu'
-import { Link } from 'react-router-dom'
 
 import { signOut } from './'
+import MenuItem from './MenuItem'
 
 export function Menu (props) {
   return <GrommetMenu>
-    <Link to='/' >Home</Link>
-    <Link to='/' onClick={props.signOut}>Sign out</Link>
+    <MenuItem to='/' >Home</MenuItem>
+    <MenuItem to='/#' onClick={props.signOut}>Sign out</MenuItem>
   </GrommetMenu>
 }
 

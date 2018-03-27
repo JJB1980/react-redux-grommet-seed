@@ -25,11 +25,15 @@ export class App extends React.Component {
   constructor (props) {
     super(props)
 
-    this.state = {
-      sidebar: false
-    }
-
+    this.state = {sidebar: false}
     this.toggleSidebar = this.toggleSidebar.bind(this)
+  }
+
+  componentWillUpdate (nextProps) {
+    const {token} = nextProps
+    if (token === '' && token !== this.props.token) {
+      this.props.history.push('/login')
+    }
   }
 
   toggleSidebar () {
@@ -37,9 +41,7 @@ export class App extends React.Component {
   }
 
   render () {
-    const {token} = this.props
-
-    if (!token || location(this.props, 'login')) {
+    if (location(this.props, 'login')) {
       return <GrommetApp>
         <LoginForm />
       </GrommetApp>

@@ -10,11 +10,12 @@ import FormField from 'grommet/components/FormField'
 import FormFields from 'grommet/components/FormFields'
 import PasswordInput from 'grommet/components/PasswordInput'
 import TextInput from 'grommet/components/TextInput'
-import Notification from 'grommet/components/Notification'
-import Spinning from 'grommet/components/icons/Spinning'
 
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
+
+import Notification from '../../components/Notification'
+import Spinning from '../../components/Spinning'
 
 import {
   changeUserName,
@@ -68,6 +69,8 @@ export class LoginForm extends React.Component {
   render () {
     const {username, password, error, submitted, token, history} = this.props
 
+    const buttonType = submitted ? null : 'submit'
+
     return <Box basis='full' align='center' margin={{top: 'large'}} pad='medium'>
       <Form onSubmit={this.handleSubmit}>
         <Helmet>
@@ -76,20 +79,20 @@ export class LoginForm extends React.Component {
         <Box pad='small'>
           <FormFields>
             <FormField label='Username'>
-              <TextInput autoFocus value={username} onDOMChange={this.handleChangeUserName} />
+              <TextInput disabled={submitted} required autoFocus value={username} onDOMChange={this.handleChangeUserName} />
             </FormField>
             <FormField label='Password'>
-              <PasswordInput value={password} onChange={this.handleChangePassword} />
+              <PasswordInput disabled={submitted} required value={password} onChange={this.handleChangePassword} />
             </FormField>
           </FormFields>
         </Box>
         {error && <Notification status='warning' message={error} />}
         {submitted && <Spinning />}
+        <Box pad='small'>
+          <Button fill label='Login' primary type={buttonType} />
+        </Box>
         <Box pad='small' align='end'>
           <Link to='hello'>Forgot your password?</Link>
-        </Box>
-        <Box pad='small'>
-          <Button fill label='Login' primary type='submit' />
         </Box>
       </Form>
     </Box>

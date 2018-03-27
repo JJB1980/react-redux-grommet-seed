@@ -1,0 +1,8 @@
+{
+  "development": {
+    "host": "http://localhost:8081/"
+  },
+  "production": {
+    "host": "http://localhost:8081/"
+  }
+}
