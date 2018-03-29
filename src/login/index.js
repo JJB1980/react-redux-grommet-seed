@@ -1,5 +1,6 @@
 import {fetchUtil} from '../utils'
 import { LoginState } from './records'
+import history from '../history'
 
 const CHANGE_USERNAME = 'CHANGE_USERNAME'
 const CHANGE_PASSWORD = 'CHANGE_PASSWORD'
@@ -7,6 +8,8 @@ const LOGIN_SUBMITTED = 'LOGIN_SUBMITTED'
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 const LOGIN_FAILURE = 'LOGIN_FAILURE'
 const SET_TOKEN = 'SET_TOKEN'
+const SET_AUTH = 'SET_AUTH'
+const INITIALIZING = 'INITIALIZING'
 
 const initialState = new LoginState()
 
@@ -22,13 +25,17 @@ export default function reducer (state = initialState, { type, payload }) {
       return state.set('submitted', true)
 
     case LOGIN_SUCCESS:
-      return state.merge({token: payload, submitted: false, error: null})
+    const {token, isAdmin} = payload
+      return state.merge({token, isAdmin, submitted: false, error: null})
 
     case LOGIN_FAILURE:
       return state.merge({error: payload, submitted: false})
 
     case SET_TOKEN:
       return state.set('token', payload)
+
+    case INITIALIZING:
+      return state.set('initializing', payload)
 
     default:
       return state
@@ -53,12 +60,16 @@ export function failure (response) {
   return { type: LOGIN_FAILURE, payload: response }
 }
 
-export function success (response) {
-  return { type: LOGIN_SUCCESS, payload: response }
+export function success (token, isAdmin) {
+  return { type: LOGIN_SUCCESS, payload: {token, isAdmin} }
 }
 
 export function setToken (token) {
   return { type: SET_TOKEN, payload: token }
+}
+
+export function setInitializing (state) {
+  return { type: INITIALIZING, payload: state }
 }
 
 // selectors ------------------
@@ -83,6 +94,10 @@ export function getToken (state) {
   return state.login.token
 }
 
+export function isAdmin (state) {
+  return state.login.isAdmin
+}
+
 // thunks -----------
 
 export function submit () {
@@ -91,15 +106,42 @@ export function submit () {
 
     dispatch(submitted())
 
-    const response = await fetchUtil('auth/login', 'POST', {email: username, password})
-    const {error, token} = await response.json()
+    const response = await fetchUtil('auth/login', 'POST', '', {email: username, password})
+    const {error, token, isAdmin} = await response.json()
 
     if (error) {
       localStorage.setItem('token', '')
       dispatch(failure(error))
     } else {
       localStorage.setItem('token', token)
-      dispatch(success(token))
+      dispatch(success(token, isAdmin))
+    }
+  }
+}
+
+export function initialize () {
+  return async (dispatch, getState, {window, localStorage, token}) => {
+    const state = getState()
+
+    if (!token) return
+
+    dispatch(setInitializing(true))
+
+    const response = await fetchUtil('auth/authenticate', 'GET', token, false)
+    const result = await response.json()
+    const {error, authenticated, isAdmin} = result
+
+    dispatch(setInitializing(false))
+
+    if (error) {
+      localStorage.setItem('token', '')
+      // dispatch(failure(error))
+      // history.push('/login')
+      window.history.pushState({}, "Login", "/login/error")
+      window.location.reload()
+    } else {
+      localStorage.setItem('token', token)
+      dispatch(success(token, isAdmin))
     }
   }
 }

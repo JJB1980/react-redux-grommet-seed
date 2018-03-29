@@ -6,12 +6,13 @@ export function location (props, route) {
   return props.location && props.location.pathname && props.location.pathname.indexOf(route) >= 0
 }
 
-export function fetchUtil (uri, method, body) {
+export function fetchUtil (uri, method, token, body) {
   return fetch(`${development.host}${uri}`, {
     method,
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "Authorization": token
     },
-    body: JSON.stringify(body)
+    body: body ? JSON.stringify(body) : null
   })
 }

@@ -67,11 +67,10 @@ export class LoginForm extends React.Component {
   }
 
   render () {
-    const {username, password, error, submitted, token, history} = this.props
-
+    const {username, password, error, submitted, token, history, match} = this.props
     const buttonType = submitted ? null : 'submit'
 
-    return <Box basis='full' align='center' margin={{top: 'large'}} pad='medium'>
+    return <Box basis='full' align='center' margin={{top: 'large'}} pad='small'>
       <Form onSubmit={this.handleSubmit}>
         <Helmet>
           <title>Login</title>
@@ -87,6 +86,7 @@ export class LoginForm extends React.Component {
           </FormFields>
         </Box>
         {error && <Notification status='warning' message={error} />}
+        {history.location.pathname === '/login/error' && <Notification status='warning' message='Invalid token.' />}
         {submitted && <Spinning />}
         <Box pad='small'>
           <Button fill label='Login' primary type={buttonType} />

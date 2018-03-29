@@ -1,4 +1,5 @@
 import React from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import Box from 'grommet/components/Box'
@@ -11,13 +12,13 @@ import Split from 'grommet/components/Split'
 import Title from 'grommet/components/Title'
 import MenuIcon from 'grommet/components/icons/base/Menu'
 
-import { withRouter } from 'react-router-dom'
+import { withRouter, Redirect } from 'react-router-dom'
 
 import Routes from '../routes'
 import LoginForm from '../login/components/LoginForm'
 import Menu from './Menu'
 import { location } from '../utils'
-import { getToken } from '../login'
+import { getToken, isAdmin } from '../login'
 
 import './App.scss'
 
@@ -29,11 +30,20 @@ export class App extends React.Component {
     this.toggleSidebar = this.toggleSidebar.bind(this)
   }
 
+  componentDidMount () {
+    const {token, history} = this.props
+
+    // if (token === '') {
+    //   history.push('/login')
+    // }
+  }
+
   componentWillUpdate (nextProps) {
-    const {token} = nextProps
-    if (token === '' && token !== this.props.token) {
-      this.props.history.push('/login')
-    }
+    const {token, location: {pathname}, history} = nextProps
+
+    // if (token === '' && token !== this.props.token) {
+    //   history.push('/login')
+    // }
   }
 
   toggleSidebar () {
@@ -41,11 +51,15 @@ export class App extends React.Component {
   }
 
   render () {
-    if (location(this.props, 'login')) {
+    const {token, isAdmin} = this.props
+
+    if (token === '' || location(this.props, 'login')) {
       return <GrommetApp>
         <LoginForm />
       </GrommetApp>
     }
+
+    const title = isAdmin ? 'ISADMIN' : 'Grommet App'
 
     return <Grommet>
       <GrommetApp centered={false}>
@@ -53,7 +67,7 @@ export class App extends React.Component {
           <Header colorIndex='neutral-2'>
             <Button id='App__menu-toggle' icon={<MenuIcon />} onClick={this.toggleSidebar} />
             <Title pad='small'>
-              Grommet App
+            {title}
             </Title>
           </Header>
           <Split className='full-width' flex='right' priority={this.state.sidebar ? 'left' : 'right'}>
@@ -76,10 +90,16 @@ export class App extends React.Component {
 
 function mapStateToProps (state) {
   return {
-    token: getToken(state)
+    token: getToken(state),
+    isAdmin: isAdmin(state)
   }
 }
 
+function mapDispatchToProps (dispatch) {
+  return bindActionCreators({}, dispatch)
+}
+
 export default withRouter(connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(App))

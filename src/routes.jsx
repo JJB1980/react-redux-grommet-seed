@@ -1,5 +1,5 @@
 import React from 'react'
-import {Route, Link } from 'react-router-dom'
+import { Route, Link } from 'react-router-dom'
 
 import Hello from './hello/components/home'
 import LoginForm from './login/components/LoginForm'
@@ -19,6 +19,7 @@ export default () => {
       <Route exact path='/test/:arg1' component={Home} />
       <Route exact path='/hello' component={Hello} />
       <Route exact path='/login' component={LoginForm} />
+      <Route exact path='/login/error' component={LoginForm} />
     </div>
   )
 }

@@ -3,14 +3,17 @@ import 'babel-polyfill'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-import { BrowserRouter as Router, hashHistory } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 
 import App from './components/App'
 import configureStore from './store'
-
+import initialize from './initialize'
+import history from './history'
 import './styles.scss'
 
 const store = configureStore()
+
+store.dispatch(initialize())
 
 ReactDOM.render((
   <Provider store={store}>
