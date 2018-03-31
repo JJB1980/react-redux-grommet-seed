@@ -2,14 +2,16 @@ import {fetchUtil} from '../utils'
 import { LoginState } from './records'
 import history from '../history'
 
-const CHANGE_USERNAME = 'CHANGE_USERNAME'
-const CHANGE_PASSWORD = 'CHANGE_PASSWORD'
-const LOGIN_SUBMITTED = 'LOGIN_SUBMITTED'
-const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
-const LOGIN_FAILURE = 'LOGIN_FAILURE'
-const SET_TOKEN = 'SET_TOKEN'
-const SET_AUTH = 'SET_AUTH'
-const INITIALIZING = 'INITIALIZING'
+const NS = 'LOGIN_'
+
+const CHANGE_USERNAME = `${NS}CHANGE_USERNAME`
+const CHANGE_PASSWORD = `${NS}CHANGE_PASSWORD`
+const LOGIN_SUBMITTED = `${NS}SUBMITTED`
+const LOGIN_SUCCESS = `${NS}SUCCESS`
+const LOGIN_FAILURE = `${NS}FAILURE`
+const SET_TOKEN = `${NS}SET_TOKEN`
+const SET_AUTH = `${NS}SET_AUTH`
+const INITIALIZING = `${NS}INITIALIZING`
 
 const initialState = new LoginState()
 

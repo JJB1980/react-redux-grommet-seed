@@ -20,13 +20,18 @@ import Notification from '../../components/Notification'
 import Spinning from '../../components/Spinning'
 
 import {
-  changeUserName,
+  changeFirstName,
+  changeLastName,
+  changeMobile,
+  changeEmail,
   changePassword,
+  getFirstName,
+  getLastName,
+  getMobile,
   getError,
   getSubmitted,
-  getUserName,
+  getEmail,
   getPassword,
-  getToken,
   submit
 } from '../'
 
@@ -37,40 +42,49 @@ export class LoginForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  componentDidMount () {
-    const {token, history} = this.props
-
-    if (token) {
-      history.push('/')
-    }
-  }
-
-  componentWillUpdate (newProps) {
-    const {token, history} = newProps
-
-    if (token && token !== this.props.token) {
-      history.push('/')
-    }
-  }
-
   handleSubmit (event) {
     event.preventDefault()
     this.props.submit()
   }
 
   render () {
-    const {username, password, error, submitted, token, history, match, changeUserName, changePassword} = this.props
+    const {
+      firstName,
+      lastName,
+      mobile,
+      email,
+      password,
+      error,
+      submitted,
+      token,
+      history,
+      match,
+      changeFirstName,
+      changeLastName,
+      changeMobile,
+      changeEmail,
+      changePassword
+    } = this.props
     const buttonType = submitted ? null : 'submit'
 
     return <Box basis='full' align='center' margin={{top: 'large'}} pad='small'>
       <Form onSubmit={this.handleSubmit}>
         <Helmet>
-          <title>Login</title>
+          <title>Signup</title>
         </Helmet>
         <Box pad='small'>
           <FormFields>
+            <FormField label='First Name'>
+              <TextInput name='firstName' disabled={submitted} required autoFocus value={firstName} onDOMChange={bindDom(changeFirstName)} />
+            </FormField>
+            <FormField label='Last Name'>
+              <TextInput name='lasttName' disabled={submitted} required value={lastName} onDOMChange={bindDom(changeLastName)} />
+            </FormField>
+            <FormField label='Mobile'>
+              <TextInput name='mobile' disabled={submitted} required value={mobile} onDOMChange={bindDom(changeMobile)} />
+            </FormField>
             <FormField label='Email'>
-              <TextInput name='email' disabled={submitted} required autoFocus value={username} onDOMChange={bindDom(changeUserName)} />
+              <TextInput name='email' disabled={submitted} required value={email} onDOMChange={bindDom(changeEmail)} />
             </FormField>
             <FormField label='Password'>
               <PasswordInput name='password' disabled={submitted} required value={password} onChange={bindDom(changePassword)} />
@@ -78,16 +92,12 @@ export class LoginForm extends React.Component {
           </FormFields>
         </Box>
         {error && <Notification status='warning' message={error} />}
-        {history.location.pathname === '/login/error' && <Notification status='warning' message='Invalid token.' />}
         {submitted && <Spinning />}
         <Box pad='small'>
-          <Button fill label='Login' primary type={buttonType} />
+          <Button fill label='Signup' primary type={buttonType} />
         </Box>
         <Box pad='small'>
-          <Anchor fill label='Sign up' type='button' href='/signup' />
-        </Box>
-        <Box pad='small' align='end'>
-          <Link to='hello'>Forgot your password?</Link>
+          <Anchor fill label='Login' type='button' href='/login' />
         </Box>
       </Form>
     </Box>
@@ -96,16 +106,25 @@ export class LoginForm extends React.Component {
 
 function mapStateToProps (state) {
   return {
-    username: getUserName(state),
+    firstName: getFirstName(state),
+    lastName: getLastName(state),
+    mobile: getMobile(state),
+    email: getEmail(state),
     password: getPassword(state),
     error: getError(state),
-    submitted: getSubmitted(state),
-    token: getToken(state)
+    submitted: getSubmitted(state)
   }
 }
 
 function mapDispatchToProps (dispatch) {
-  return bindActionCreators({changeUserName, changePassword, submit}, dispatch)
+  return bindActionCreators({
+    changeFirstName,
+    changeLastName,
+    changeMobile,
+    changeEmail,
+    changePassword,
+    submit
+  }, dispatch)
 }
 
 export default withRouter(connect(

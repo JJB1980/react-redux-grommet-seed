@@ -1,6 +1,7 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { withRouter, Redirect } from 'react-router-dom'
 
 import Box from 'grommet/components/Box'
 import Button from 'grommet/components/Button'
@@ -12,10 +13,9 @@ import Split from 'grommet/components/Split'
 import Title from 'grommet/components/Title'
 import MenuIcon from 'grommet/components/icons/base/Menu'
 
-import { withRouter, Redirect } from 'react-router-dom'
-
 import Routes from '../routes'
 import LoginForm from '../login/components/LoginForm'
+import SignUpForm from '../signup/components/SignUp'
 import Menu from './Menu'
 import { location } from '../utils'
 import { getToken, isAdmin } from '../login'
@@ -30,28 +30,18 @@ export class App extends React.Component {
     this.toggleSidebar = this.toggleSidebar.bind(this)
   }
 
-  componentDidMount () {
-    const {token, history} = this.props
-
-    // if (token === '') {
-    //   history.push('/login')
-    // }
-  }
-
-  componentWillUpdate (nextProps) {
-    const {token, location: {pathname}, history} = nextProps
-
-    // if (token === '' && token !== this.props.token) {
-    //   history.push('/login')
-    // }
-  }
-
   toggleSidebar () {
     this.setState({sidebar: !this.state.sidebar})
   }
 
   render () {
     const {token, isAdmin} = this.props
+
+    if (location(this.props, 'signup')) {
+      return <GrommetApp>
+        <SignUpForm />
+      </GrommetApp>
+    }
 
     if (token === '' || location(this.props, 'login')) {
       return <GrommetApp>

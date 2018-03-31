@@ -20,6 +20,7 @@ export default () => {
       <Route exact path='/hello' component={Hello} />
       <Route exact path='/login' component={LoginForm} />
       <Route exact path='/login/error' component={LoginForm} />
+      <Route exact path='/signup' component={Home} />
     </div>
   )
 }

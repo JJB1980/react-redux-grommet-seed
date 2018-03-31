@@ -16,3 +16,9 @@ export function fetchUtil (uri, method, token, body) {
     body: body ? JSON.stringify(body) : null
   })
 }
+
+export function bindDom(callback) {
+  return (event) => {
+    return callback(event.target.value)
+  }
+}
