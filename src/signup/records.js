@@ -8,4 +8,5 @@ export const SignUpState = new Record({
   password: '',
   submitted: false,
   error: null,
+  success: null
 }, 'SignUpState')

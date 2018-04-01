@@ -36,8 +36,7 @@ export default function reducer (state = initialState, { type, payload }) {
       return state.set('submitted', true)
 
     case SIGNUP_SUCCESS:
-      const {token, isAdmin} = payload
-      return state.merge({token, isAdmin, submitted: false, error: null})
+      return state.merge({success: payload, submitted: false, error: null})
 
     case SIGNUP_FAILURE:
       return state.merge({error: payload, submitted: false})
@@ -77,8 +76,8 @@ export function failure (response) {
   return { type: SIGNUP_FAILURE, payload: response }
 }
 
-export function success (token, isAdmin) {
-  return { type: SIGNUP_SUCCESS, payload: {token, isAdmin} }
+export function setSuccess () {
+  return { type: SIGNUP_SUCCESS, payload: true }
 }
 
 // selectors ------------------
@@ -111,24 +110,25 @@ export function getSubmitted (state) {
   return state.signup.submitted
 }
 
+export function getSuccess (state) {
+  return state.signup.success
+}
+
 // thunks -----------
 
 export function submit () {
-  return async (dispatch, getState, {localStorage}) => {
-    const {login} = getState()
-console.log(login)
-return
+  return async (dispatch, getState) => {
+    const {signup: {email, password, firstName, lastName, mobile}} = getState()
+
     dispatch(submitted())
 
-    const response = await fetchUtil('auth/login', 'POST', '', {email: username, password})
-    const {error, token, isAdmin} = await response.json()
+    const response = await fetchUtil('user/signup', 'POST', null, {email, password, firstName, lastName, mobile})
+    const {error, success} = await response.json()
 
-    if (error) {
-      localStorage.setItem('token', '')
+    if (!success) {
       dispatch(failure(error))
     } else {
-      localStorage.setItem('token', token)
-      dispatch(success(token, isAdmin))
+      dispatch(setSuccess())
     }
   }
 }

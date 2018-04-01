@@ -108,7 +108,7 @@ export function submit () {
 
     dispatch(submitted())
 
-    const response = await fetchUtil('auth/login', 'POST', '', {email: username, password})
+    const response = await fetchUtil('auth/login', 'POST', null, {email: username, password})
     const {error, token, isAdmin} = await response.json()
 
     if (error) {
