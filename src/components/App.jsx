@@ -16,6 +16,7 @@ import MenuIcon from 'grommet/components/icons/base/Menu'
 import Routes from '../routes'
 import LoginForm from '../login/components/LoginForm'
 import SignUpForm from '../signup/components/SignUp'
+import ForgotPassword from '../signup/components/ForgotPassword'
 import Menu from './Menu'
 import { location } from '../utils'
 import { getToken, isAdmin } from '../login'
@@ -37,13 +38,19 @@ export class App extends React.Component {
   render () {
     const {token, isAdmin} = this.props
 
-    if (location(this.props, 'signup')) {
+    if (location(this.props, /(\/signup$)/)) {
       return <GrommetApp>
         <SignUpForm />
       </GrommetApp>
     }
 
-    if (token === '' || location(this.props, 'login')) {
+    if (location(this.props, /(\/resetPassword$)/)) {
+      return <GrommetApp>
+        <ForgotPassword />
+      </GrommetApp>
+    }
+
+    if (token === '' || location(this.props, /(\/login$)/)) {
       return <GrommetApp>
         <LoginForm />
       </GrommetApp>

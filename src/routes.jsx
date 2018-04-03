@@ -18,8 +18,10 @@ export default () => {
       <Route exact path='/' component={Home} />
       <Route exact path='/test/:arg1' component={Home} />
       <Route exact path='/hello' component={Hello} />
-      <Route exact path='/login' component={LoginForm} />
-      <Route exact path='/login/error' component={LoginForm} />
+      <Route exact path='/resetPassword' component={Home} />
+      <Route exact path='/resetPassword/:token' component={Home} />
+      <Route exact path='/login' component={Home} />
+      <Route exact path='/login/error' component={Home} />
       <Route exact path='/signup' component={Home} />
     </div>
   )

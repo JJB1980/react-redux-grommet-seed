@@ -3,7 +3,7 @@ import fetch from 'cross-fetch'
 import {development} from './config.json'
 
 export function location (props, route) {
-  return props.location && props.location.pathname && props.location.pathname.indexOf(route) >= 0
+  return props.location && props.location.pathname && props.location.pathname.match(route)
 }
 
 export function fetchUtil (uri, method, token, body) {

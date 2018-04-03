@@ -12,6 +12,7 @@ const CHANGE_PASSWORD = `${NS}CHANGE_PASSWORD`
 const SIGNUP_SUBMITTED = `${NS}SUBMITTED`
 const SIGNUP_SUCCESS = `${NS}SUCESS`
 const SIGNUP_FAILURE = `${NS}FAILURE`
+const RESET_FIELDS = `${NS}RESET_FIELDS`
 
 const initialState = new SignUpState()
 
@@ -39,7 +40,10 @@ export default function reducer (state = initialState, { type, payload }) {
       return state.merge({success: payload, submitted: false, error: null})
 
     case SIGNUP_FAILURE:
-      return state.merge({error: payload, submitted: false})
+      return state.merge({error: payload, submitted: false, success: false})
+
+    case RESET_FIELDS:
+      return state.merge({error: null, submitted: false, success: null})
 
     default:
       return state
@@ -78,6 +82,10 @@ export function failure (response) {
 
 export function setSuccess () {
   return { type: SIGNUP_SUCCESS, payload: true }
+}
+
+export function resetFields () {
+  return { type: RESET_FIELDS }
 }
 
 // selectors ------------------
@@ -129,6 +137,24 @@ export function submit () {
       dispatch(failure(error))
     } else {
       dispatch(setSuccess())
+    }
+  }
+}
+
+export function resetPassword () {
+  return async (dispatch, getState) => {
+    const state = getState()
+    const email = getEmail(state)
+
+    dispatch(submitted())
+
+    const response = await fetchUtil('user/resetPassword', 'POST', null, {email})
+    const result = await response.json()
+
+    if (result.success) {
+      dispatch(setSuccess())
+    } else {
+      dispatch(failure(result.error))
     }
   }
 }

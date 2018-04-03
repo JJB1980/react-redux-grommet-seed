@@ -80,14 +80,10 @@ export class LoginForm extends React.Component {
         {error && <Notification status='warning' message={error} />}
         {history.location.pathname === '/login/error' && <Notification status='warning' message='Invalid token.' />}
         {submitted && <Spinning />}
-        <Box pad='small'>
+        <Box pad={{between: 'small', horizontal: 'small'}}>
           <Button fill label='Login' primary type={buttonType} />
-        </Box>
-        <Box pad='small'>
           <Anchor fill label='Sign up' type='button' href='/signup' />
-        </Box>
-        <Box pad='small' align='end'>
-          <Link to='hello'>Forgot your password?</Link>
+          <Link to='/resetPassword'>Forgot your password?</Link>
         </Box>
       </Form>
     </Box>
