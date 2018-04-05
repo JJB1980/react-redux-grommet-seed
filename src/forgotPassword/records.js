@@ -4,5 +4,5 @@ export const ForgotPasswordState = new Record({
   email: '',
   submitted: false,
   error: false,
-  sucess: false
+  success: false
 }, 'ForgotPasswordState')

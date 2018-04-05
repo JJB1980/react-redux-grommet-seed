@@ -40,15 +40,15 @@ export function changeEmail (email) {
 }
 
 export function submitted () {
-  return { type: SIGNUP_SUBMITTED }
+  return { type: SUBMITTED }
 }
 
 export function failure (response) {
-  return { type: SIGNUP_FAILURE, payload: response }
+  return { type: FAILURE, payload: response }
 }
 
 export function setSuccess () {
-  return { type: SIGNUP_SUCCESS, payload: true }
+  return { type: SUCCESS, payload: true }
 }
 
 export function clearForm () {

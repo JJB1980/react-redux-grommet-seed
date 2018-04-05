@@ -11,6 +11,7 @@ import Heading from 'grommet/components/Heading'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 
+import AuthComponent from '../../components/AuthComponent'
 import UserForm from './UserForm'
 import Anchor from '../../components/Anchor'
 import Notification from '../../components/Notification'
@@ -36,25 +37,7 @@ import {
   isComplete
 } from '../'
 
-export class LoginForm extends React.Component {
-  componentWillMount () {
-    const {token, history, clearForm} = this.props
-
-    if (token) {
-      history.push('/')
-    } else {
-      clearForm()
-    }
-  }
-
-  componentWillUpdate (newProps) {
-    const {token, history} = newProps
-
-    if (token && token !== this.props.token) {
-      history.push('/')
-    }
-  }
-
+export class LoginForm extends AuthComponent {
   render () {
     const {
       error,

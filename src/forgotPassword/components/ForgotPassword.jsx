@@ -15,6 +15,7 @@ import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 
 import Anchor from '../../components/Anchor'
+import AuthComponent from '../../components/AuthComponent'
 import Notification from '../../components/Notification'
 import Spinning from '../../components/Spinning'
 
@@ -31,25 +32,7 @@ import {
 } from '../'
 import {getToken} from '../../login'
 
-export class ForgotPassword extends React.Component {
-  componentDidMount () {
-    const {token, history, clearForm} = this.props
-
-    if (token) {
-      history.push('/')
-    } else {
-      clearForm()
-    }
-  }
-
-  componentWillUpdate (newProps) {
-    const {token, history} = newProps
-
-    if (token && token !== this.props.token) {
-      history.push('/')
-    }
-  }
-
+export class ForgotPassword extends AuthComponent {
   render () {
     const {
       email,
