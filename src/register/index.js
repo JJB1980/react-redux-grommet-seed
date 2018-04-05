@@ -19,19 +19,24 @@ const initialState = new RegisterState()
 export default function reducer (state = initialState, { type, payload }) {
   switch (type) {
     case CHANGE_FIRSTNAME:
-      return state.set('firstName', payload)
+      state = state.set('firstName', payload)
+      return state.set('complete', complete(state))
 
     case CHANGE_LASTNAME:
-      return state.set('lastName', payload)
+      state = state.set('lastName', payload)
+      return state.set('complete', complete(state))
 
     case CHANGE_MOBILE:
-      return state.set('mobile', payload)
+      state = state.set('mobile', payload)
+      return state.set('complete', complete(state))
 
     case CHANGE_EMAIL:
-      return state.set('email', payload)
+      state = state.set('email', payload)
+      return state.set('complete', complete(state))
 
     case CHANGE_PASSWORD:
-      return state.set('password', payload)
+      state = state.set('password', payload)
+      return state.set('complete', complete(state))
 
     case SIGNUP_SUBMITTED:
       return state.set('submitted', true)
@@ -48,6 +53,10 @@ export default function reducer (state = initialState, { type, payload }) {
     default:
       return state
   }
+}
+
+function complete (state) {
+  return state.firstName && state.lastName && state.mobile && state.password && state.email
 }
 
 // actions --------------------
@@ -90,36 +99,44 @@ export function clearForm () {
 
 // selectors ------------------
 
+function root (state) {
+  return state.register
+}
+
 export function getFirstName (state) {
-  return state.register.firstName
+  return root(state).firstName
 }
 
 export function getLastName (state) {
-  return state.register.lastName
+  return root(state).lastName
 }
 
 export function getMobile (state) {
-  return state.register.mobile
+  return root(state).mobile
 }
 
 export function getEmail (state) {
-  return state.register.email
+  return root(state).email
 }
 
 export function getPassword (state) {
-  return state.register.name
+  return root(state).name
 }
 
 export function getError (state) {
-  return state.register.error
+  return root(state).error
 }
 
 export function getSubmitted (state) {
-  return state.register.submitted
+  return root(state).submitted
 }
 
 export function getSuccess (state) {
-  return state.register.success
+  return root(state).success
+}
+
+export function isComplete (state) {
+  return root(state).complete
 }
 
 // thunks -----------

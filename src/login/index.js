@@ -23,11 +23,11 @@ export default function reducer (state = initialState, { type, payload }) {
   switch (type) {
     case CHANGE_EMAIL:
       state = state.set('email', payload)
-      return state.set('isComplete', complete(state))
+      return state.set('complete', complete(state))
 
     case CHANGE_PASSWORD:
     state = state.set('password', payload)
-    return state.set('isComplete', complete(state))
+    return state.set('complete', complete(state))
 
     case LOGIN_SUBMITTED:
       return state.set('submitted', true)
@@ -123,7 +123,7 @@ export function isAdmin (state) {
 }
 
 export function isComplete (state) {
-  return root(state).isComplete
+  return root(state).complete
 }
 
 // thunks -----------

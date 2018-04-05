@@ -38,13 +38,13 @@ export class App extends React.Component {
   render () {
     const {token, isAdmin} = this.props
 
-    if (location(this.props, /(\/register$)/)) {
+    if (token === '' && location(this.props, /(\/register$)/)) {
       return <GrommetApp>
         <RegisterForm />
       </GrommetApp>
     }
 
-    if (location(this.props, /(\/resetPassword$)/)) {
+    if (token === '' && location(this.props, /(\/resetPassword$)/)) {
       return <GrommetApp>
         <ForgotPassword />
       </GrommetApp>

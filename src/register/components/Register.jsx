@@ -32,7 +32,8 @@ import {
   getPassword,
   getSuccess,
   submit,
-  clearForm
+  clearForm,
+  isComplete
 } from '../'
 
 export class LoginForm extends React.Component {
@@ -59,7 +60,8 @@ export class LoginForm extends React.Component {
       error,
       submitted,
       success,
-      submit
+      submit,
+      complete
     } = this.props
 
     function handleSubmit (event) {
@@ -67,7 +69,7 @@ export class LoginForm extends React.Component {
       submit()
     }
 
-    const buttonType = submitted ? null : 'submit'
+    const buttonType = submitted || !complete ? null : 'submit'
 
     return <Box basis='full' align='center' margin={{top: 'large'}}>
       <Form onSubmit={handleSubmit}>
@@ -100,7 +102,8 @@ function mapStateToProps (state) {
     error: getError(state),
     submitted: getSubmitted(state),
     success: getSuccess(state),
-    token: getToken(state)
+    token: getToken(state),
+    complete: isComplete(state)
   }
 }
 

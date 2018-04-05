@@ -8,5 +8,6 @@ export const RegisterState = new Record({
   password: '',
   submitted: false,
   error: null,
-  success: null
+  success: null,
+  complete: false
 }, 'RegisterState')

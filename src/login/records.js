@@ -8,5 +8,5 @@ export const LoginState = new Record({
   error: null,
   isAdmin: false,
   token: '',
-  isComplete: false
+  complete: false
 }, 'LoginState')
