@@ -1,11 +1,25 @@
+// @import '~grommet/scss/vanilla/index';
+
+@import '~grommet/scss/vanilla/vanilla.defaults';
+
+$brand-color: #5186F0;
+$brand-link-color: #5186F0;
+$brand-accent-colors: set-nth($brand-accent-colors, 1, #4FDCC3);
+$brand-neutral-colors: (#34393E, #14A0B9, #501EB4, #49516F);
+$brand-font-family: 'Noto Sans', Arial, sans-serif;
+$text-strong-font-weight: 600;
+
+@import '~grommet/scss/grommet-core/index';
+// @import '~grommet/scss/vanilla/objects.button-vanilla';
+// @import url('https://fonts.googleapis.com/css?family=Yantramanav:100');
+
 * {
   box-sizing: border-box;
+  // font-family: 'Yantramanav', Arial;
 }
 
 body {
   padding: none !important;
 }
-
-@import '~grommet/scss/vanilla/index';
 
 $some-color: red;

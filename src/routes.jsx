@@ -3,6 +3,8 @@ import { Route, Link } from 'react-router-dom'
 
 import Hello from './hello/components/home'
 import LoginForm from './login/components/LoginForm'
+import RegisterForm from './register/components/Register'
+import ForgotPassword from './forgotPassword/components/ForgotPassword'
 
 const Home = (props) => {
   console.log(props.match.params.arg1)
@@ -20,9 +22,9 @@ export default () => {
       <Route exact path='/hello' component={Hello} />
       <Route exact path='/resetPassword' component={Home} />
       <Route exact path='/resetPassword/:token' component={Home} />
-      <Route exact path='/login' component={Home} />
-      <Route exact path='/login/error' component={Home} />
-      <Route exact path='/signup' component={Home} />
+      <Route exact path='/login' component={LoginForm} />
+      <Route exact path='/login/error' component={LoginForm} />
+      <Route exact path='/register' component={Home} />
     </div>
   )
 }

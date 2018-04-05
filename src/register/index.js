@@ -1,8 +1,8 @@
-import {fetchUtil} from '../utils'
-import { SignUpState } from './records'
+import { fetchUtil } from '../utils'
+import { RegisterState } from './records'
 import history from '../history'
 
-const NS = 'SIGNUP_'
+const NS = 'REGISTER_'
 
 const CHANGE_FIRSTNAME = `${NS}CHANGE_FIRSTNAME`
 const CHANGE_LASTNAME = `${NS}CHANGE_LASTNAME`
@@ -12,9 +12,9 @@ const CHANGE_PASSWORD = `${NS}CHANGE_PASSWORD`
 const SIGNUP_SUBMITTED = `${NS}SUBMITTED`
 const SIGNUP_SUCCESS = `${NS}SUCESS`
 const SIGNUP_FAILURE = `${NS}FAILURE`
-const RESET_FIELDS = `${NS}RESET_FIELDS`
+const CLEAR_FORM = `${NS}CLEAR_FORM`
 
-const initialState = new SignUpState()
+const initialState = new RegisterState()
 
 export default function reducer (state = initialState, { type, payload }) {
   switch (type) {
@@ -42,8 +42,8 @@ export default function reducer (state = initialState, { type, payload }) {
     case SIGNUP_FAILURE:
       return state.merge({error: payload, submitted: false, success: false})
 
-    case RESET_FIELDS:
-      return state.merge({error: null, submitted: false, success: null})
+    case CLEAR_FORM:
+      return initialState
 
     default:
       return state
@@ -84,53 +84,53 @@ export function setSuccess () {
   return { type: SIGNUP_SUCCESS, payload: true }
 }
 
-export function resetFields () {
-  return { type: RESET_FIELDS }
+export function clearForm () {
+  return { type: CLEAR_FORM }
 }
 
 // selectors ------------------
 
 export function getFirstName (state) {
-  return state.signup.firstName
+  return state.register.firstName
 }
 
 export function getLastName (state) {
-  return state.signup.lastName
+  return state.register.lastName
 }
 
 export function getMobile (state) {
-  return state.signup.mobile
+  return state.register.mobile
 }
 
 export function getEmail (state) {
-  return state.signup.email
+  return state.register.email
 }
 
 export function getPassword (state) {
-  return state.signup.name
+  return state.register.name
 }
 
 export function getError (state) {
-  return state.signup.error
+  return state.register.error
 }
 
 export function getSubmitted (state) {
-  return state.signup.submitted
+  return state.register.submitted
 }
 
 export function getSuccess (state) {
-  return state.signup.success
+  return state.register.success
 }
 
 // thunks -----------
 
 export function submit () {
   return async (dispatch, getState) => {
-    const {signup: {email, password, firstName, lastName, mobile}} = getState()
+    const {register: {email, password, firstName, lastName, mobile}} = getState()
 
     dispatch(submitted())
 
-    const response = await fetchUtil('user/signup', 'POST', null, {email, password, firstName, lastName, mobile})
+    const response = await fetchUtil('user/register', 'POST', null, {email, password, firstName, lastName, mobile})
     const {error, success} = await response.json()
 
     if (!success) {

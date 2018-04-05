@@ -1,12 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { withRouter } from 'react-router-dom'
 
 import Box from 'grommet/components/Box'
 import Button from 'grommet/components/Button'
 import Form from 'grommet/components/Form'
 import FormField from 'grommet/components/FormField'
 import FormFields from 'grommet/components/FormFields'
+import Heading from 'grommet/components/Heading'
 import TextInput from 'grommet/components/TextInput'
 
 import { Helmet } from 'react-helmet'
@@ -21,16 +23,31 @@ import { bindDom } from '../../utils'
 import {
   changeEmail,
   getEmail,
-  resetPassword,
+  submit,
   getSubmitted,
   getSuccess,
   getError,
-  resetFields
+  clearForm
 } from '../'
+import {getToken} from '../../login'
 
 export class ForgotPassword extends React.Component {
   componentDidMount () {
-    this.props.resetFields()
+    const {token, history, clearForm} = this.props
+
+    if (token) {
+      history.push('/')
+    } else {
+      clearForm()
+    }
+  }
+
+  componentWillUpdate (newProps) {
+    const {token, history} = newProps
+
+    if (token && token !== this.props.token) {
+      history.push('/')
+    }
   }
 
   render () {
@@ -39,13 +56,13 @@ export class ForgotPassword extends React.Component {
       error,
       submitted,
       success,
-      resetPassword,
+      submit,
       changeEmail
     } = this.props
 
     function handleSubmit (event) {
       event.preventDefault()
-      resetPassword()
+      submit()
     }
 
     const buttonType = submitted ? null : 'submit'
@@ -56,6 +73,7 @@ export class ForgotPassword extends React.Component {
           <title>Forgot Password</title>
         </Helmet>
         <Box pad='small'>
+          <Heading tag='h3'>Forgot password</Heading>
           <FormFields>
             <FormField label='Email'>
               <TextInput autoFocus value={email} onDOMChange={bindDom(changeEmail)} />
@@ -79,19 +97,20 @@ function mapStateToProps (state) {
     email: getEmail(state),
     error: getError(state),
     submitted: getSubmitted(state),
-    success: getSuccess(state)
+    success: getSuccess(state),
+    token: getToken(state)
   }
 }
 
 function mapDispatchToProps (dispatch) {
   return bindActionCreators({
-    resetPassword,
+    submit,
     changeEmail,
-    resetFields
+    clearForm
   }, dispatch)
 }
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(ForgotPassword)
+)(ForgotPassword))

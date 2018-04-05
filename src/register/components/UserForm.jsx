@@ -26,7 +26,7 @@ export function LoginForm (props) {
     changePassword
   } = props
 
-  return <Box pad='small'>
+  return <Box pad={{between: 'small', horizontal: 'small'}} margin={{bottom: 'small'}}>
     <FormFields>
       <FormField label='First Name'>
         <TextInput name='firstName' disabled={submitted} required autoFocus value={firstName} onDOMChange={bindDom(changeFirstName)} />
@@ -37,6 +37,8 @@ export function LoginForm (props) {
       <FormField label='Mobile'>
         <TextInput name='mobile' disabled={submitted} required value={mobile} onDOMChange={bindDom(changeMobile)} />
       </FormField>
+    </FormFields>
+    <FormFields>
       <FormField label='Email'>
         <TextInput name='email' disabled={submitted} required value={email} onDOMChange={bindDom(changeEmail)} />
       </FormField>

@@ -2,10 +2,11 @@ import { Record } from 'immutable'
 
 export const LoginState = new Record({
   initializing: false,
-  username: '',
+  email: '',
   password: '',
   submitted: false,
   error: null,
   isAdmin: false,
-  token: localStorage.getItem('token')
+  token: '',
+  isComplete: false
 }, 'LoginState')

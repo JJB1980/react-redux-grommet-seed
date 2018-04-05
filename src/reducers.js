@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux'
 import hello from './hello'
 import login from './login'
-import signup from './signup'
+import register from './register'
+import forgotPassword from './forgotPassword'
 
 export default combineReducers({
   hello,
   login,
-  signup
+  register,
+  forgotPassword
 })

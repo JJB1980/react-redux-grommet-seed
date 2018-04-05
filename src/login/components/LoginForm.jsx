@@ -8,6 +8,7 @@ import Button from 'grommet/components/Button'
 import Form from 'grommet/components/Form'
 import FormField from 'grommet/components/FormField'
 import FormFields from 'grommet/components/FormFields'
+import Heading from 'grommet/components/Heading'
 import PasswordInput from 'grommet/components/PasswordInput'
 import TextInput from 'grommet/components/TextInput'
 
@@ -20,28 +21,26 @@ import Notification from '../../components/Notification'
 import Spinning from '../../components/Spinning'
 
 import {
-  changeUserName,
+  changeEmail,
   changePassword,
   getError,
   getSubmitted,
-  getUserName,
+  getEmail,
   getPassword,
   getToken,
-  submit
+  submit,
+  isComplete,
+  clearForm
 } from '../'
 
 export class LoginForm extends React.Component {
-  constructor (props) {
-    super(props)
-
-    this.handleSubmit = this.handleSubmit.bind(this)
-  }
-
   componentDidMount () {
-    const {token, history} = this.props
+    const {token, history, clearForm} = this.props
 
     if (token) {
       history.push('/')
+    } else {
+      clearForm()
     }
   }
 
@@ -53,24 +52,37 @@ export class LoginForm extends React.Component {
     }
   }
 
-  handleSubmit (event) {
-    event.preventDefault()
-    this.props.submit()
-  }
-
   render () {
-    const {username, password, error, submitted, token, history, match, changeUserName, changePassword} = this.props
-    const buttonType = submitted ? null : 'submit'
+    const {
+      username,
+      password,
+      error,
+      submitted,
+      token,
+      history,
+      match,
+      changeEmail,
+      changePassword,
+      isComplete,
+      submit
+    } = this.props
+    const buttonType = submitted || !isComplete ? null : 'submit'
 
-    return <Box basis='full' align='center' margin={{top: 'large'}} pad='small'>
-      <Form onSubmit={this.handleSubmit}>
+    function handleSubmit (event) {
+      event.preventDefault()
+      submit()
+    }
+
+    return <Box basis='full' align='center' margin={{top: 'large'}}>
+      <Form onSubmit={handleSubmit}>
         <Helmet>
           <title>Login</title>
         </Helmet>
         <Box pad='small'>
+          <Heading tag='h3'>Log in</Heading>
           <FormFields>
             <FormField label='Email'>
-              <TextInput name='email' disabled={submitted} required autoFocus value={username} onDOMChange={bindDom(changeUserName)} />
+              <TextInput name='email' disabled={submitted} required autoFocus value={username} onDOMChange={bindDom(changeEmail)} />
             </FormField>
             <FormField label='Password'>
               <PasswordInput name='password' disabled={submitted} required value={password} onChange={bindDom(changePassword)} />
@@ -82,7 +94,7 @@ export class LoginForm extends React.Component {
         {submitted && <Spinning />}
         <Box pad={{between: 'small', horizontal: 'small'}}>
           <Button fill label='Login' primary type={buttonType} />
-          <Anchor fill label='Sign up' type='button' href='/signup' />
+          <Anchor fill label='Register' type='button' href='/register' />
           <Link to='/resetPassword'>Forgot your password?</Link>
         </Box>
       </Form>
@@ -92,16 +104,17 @@ export class LoginForm extends React.Component {
 
 function mapStateToProps (state) {
   return {
-    username: getUserName(state),
+    username: getEmail(state),
     password: getPassword(state),
     error: getError(state),
     submitted: getSubmitted(state),
-    token: getToken(state)
+    token: getToken(state),
+    isComplete: isComplete(state)
   }
 }
 
 function mapDispatchToProps (dispatch) {
-  return bindActionCreators({changeUserName, changePassword, submit}, dispatch)
+  return bindActionCreators({changeEmail, changePassword, submit, clearForm}, dispatch)
 }
 
 export default withRouter(connect(

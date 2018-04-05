@@ -1,10 +1,13 @@
+import { createSelector } from 'reselect'
+
 import {fetchUtil} from '../utils'
 import { LoginState } from './records'
 import history from '../history'
+// import { getEmail } from '../register';
 
 const NS = 'LOGIN_'
 
-const CHANGE_USERNAME = `${NS}CHANGE_USERNAME`
+const CHANGE_EMAIL = `${NS}CHANGE_EMAIL`
 const CHANGE_PASSWORD = `${NS}CHANGE_PASSWORD`
 const LOGIN_SUBMITTED = `${NS}SUBMITTED`
 const LOGIN_SUCCESS = `${NS}SUCCESS`
@@ -12,22 +15,26 @@ const LOGIN_FAILURE = `${NS}FAILURE`
 const SET_TOKEN = `${NS}SET_TOKEN`
 const SET_AUTH = `${NS}SET_AUTH`
 const INITIALIZING = `${NS}INITIALIZING`
+const CLEAR_FORM = `${NS}CLEAR_FORM`
 
 const initialState = new LoginState()
 
 export default function reducer (state = initialState, { type, payload }) {
   switch (type) {
-    case CHANGE_USERNAME:
-      return state.set('username', payload)
+    case CHANGE_EMAIL:
+      state = state.set('email', payload)
+      return state.set('isComplete', complete(state))
 
     case CHANGE_PASSWORD:
-      return state.set('password', payload)
+    state = state.set('password', payload)
+    return state.set('isComplete', complete(state))
 
     case LOGIN_SUBMITTED:
       return state.set('submitted', true)
 
     case LOGIN_SUCCESS:
-    const {token, isAdmin} = payload
+      const {token, isAdmin} = payload
+
       return state.merge({token, isAdmin, submitted: false, error: null})
 
     case LOGIN_FAILURE:
@@ -39,15 +46,22 @@ export default function reducer (state = initialState, { type, payload }) {
     case INITIALIZING:
       return state.set('initializing', payload)
 
+    case CLEAR_FORM:
+      return initialState
+
     default:
       return state
   }
 }
 
+function complete ({email, password}) {
+  return email && password
+}
+
 // actions --------------------
 
-export function changeUserName (username) {
-  return { type: CHANGE_USERNAME, payload: username }
+export function changeEmail (email) {
+  return { type: CHANGE_EMAIL, payload: email }
 }
 
 export function changePassword (password) {
@@ -74,41 +88,53 @@ export function setInitializing (state) {
   return { type: INITIALIZING, payload: state }
 }
 
+export function clearForm (state) {
+  return { type: CLEAR_FORM }
+}
+
 // selectors ------------------
 
-export function getUserName (state) {
-  return state.login.name
+function root (state) {
+  return state.login
+}
+
+export function getEmail (state) {
+  return root(state).email
 }
 
 export function getPassword (state) {
-  return state.login.name
+  return root(state).password
 }
 
 export function getError (state) {
-  return state.login.error
+  return root(state).error
 }
 
 export function getSubmitted (state) {
-  return state.login.submitted
+  return root(state).submitted
 }
 
 export function getToken (state) {
-  return state.login.token
+  return root(state).token
 }
 
 export function isAdmin (state) {
-  return state.login.isAdmin
+  return root(state).isAdmin
+}
+
+export function isComplete (state) {
+  return root(state).isComplete
 }
 
 // thunks -----------
 
 export function submit () {
   return async (dispatch, getState, {localStorage}) => {
-    const {login: {username, password}} = getState()
+    const {login: {email, password}} = getState()
 
     dispatch(submitted())
 
-    const response = await fetchUtil('auth/login', 'POST', null, {email: username, password})
+    const response = await fetchUtil('auth/login', 'POST', null, {email, password})
     const {error, token, isAdmin} = await response.json()
 
     if (error) {

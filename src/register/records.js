@@ -1,6 +1,6 @@
 import { Record } from 'immutable'
 
-export const SignUpState = new Record({
+export const RegisterState = new Record({
   firstName: '',
   lastName: '',
   mobile: '',
@@ -9,4 +9,4 @@ export const SignUpState = new Record({
   submitted: false,
   error: null,
   success: null
-}, 'SignUpState')
+}, 'RegisterState')
