@@ -1,4 +1,3 @@
-import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { withRouter } from 'react-router-dom'
@@ -9,7 +8,6 @@ import Form from 'grommet/components/Form'
 import Heading from 'grommet/components/Heading'
 
 import { Helmet } from 'react-helmet'
-import { Link } from 'react-router-dom'
 
 import AuthComponent from '../../components/AuthComponent'
 import UserForm from './UserForm'
@@ -34,7 +32,9 @@ import {
   getSuccess,
   submit,
   clearForm,
-  isComplete
+  isComplete,
+  getErrors,
+  validateEmail
 } from '../'
 
 export class LoginForm extends AuthComponent {
@@ -44,7 +44,8 @@ export class LoginForm extends AuthComponent {
       submitted,
       success,
       submit,
-      complete
+      complete,
+      errors
     } = this.props
 
     function handleSubmit (event) {
@@ -52,7 +53,7 @@ export class LoginForm extends AuthComponent {
       submit()
     }
 
-    const buttonType = submitted || !complete ? null : 'submit'
+    const buttonType = submitted || !complete || errors.size ? null : 'submit'
 
     return <Box basis='full' align='center' margin={{top: 'large'}}>
       <Form onSubmit={handleSubmit}>
@@ -86,7 +87,8 @@ function mapStateToProps (state) {
     submitted: getSubmitted(state),
     success: getSuccess(state),
     token: getToken(state),
-    complete: isComplete(state)
+    complete: isComplete(state),
+    errors: getErrors(state)
   }
 }
 
@@ -98,7 +100,8 @@ function mapDispatchToProps (dispatch) {
     changeEmail,
     changePassword,
     submit,
-    clearForm
+    clearForm,
+    validateEmail
   }, dispatch)
 }
 

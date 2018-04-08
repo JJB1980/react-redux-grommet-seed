@@ -1,4 +1,4 @@
-import { Record } from 'immutable'
+import { Map, Record } from 'immutable'
 
 export const RegisterState = new Record({
   firstName: '',
@@ -9,5 +9,6 @@ export const RegisterState = new Record({
   submitted: false,
   error: null,
   success: null,
-  complete: false
+  complete: false,
+  errors: Map()
 }, 'RegisterState')

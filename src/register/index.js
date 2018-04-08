@@ -1,6 +1,5 @@
 import { fetchUtil } from '../utils'
 import { RegisterState } from './records'
-import history from '../history'
 
 const NS = 'REGISTER_'
 
@@ -13,6 +12,9 @@ const SIGNUP_SUBMITTED = `${NS}SUBMITTED`
 const SIGNUP_SUCCESS = `${NS}SUCESS`
 const SIGNUP_FAILURE = `${NS}FAILURE`
 const CLEAR_FORM = `${NS}CLEAR_FORM`
+const VALID_EMAIL = `${NS}VALID_EMAIL`
+
+const EMAIL_REGEX = /\S+@\S+\.\S+/
 
 const initialState = new RegisterState()
 
@@ -31,8 +33,17 @@ export default function reducer (state = initialState, { type, payload }) {
       return state.set('complete', complete(state))
 
     case CHANGE_EMAIL:
-      state = state.set('email', payload)
+      const {errors} = state
+      const result = payload.match(EMAIL_REGEX)
+
+      state = state.merge({
+        email: payload,
+        errors: !result ? errors.set('email', 'Invalid email.') : errors.delete('email')
+      })
       return state.set('complete', complete(state))
+
+    case VALID_EMAIL:
+      return state.set('errors', payload ? state.errors : state.errors.set('email', 'Email already in use.'))
 
     case CHANGE_PASSWORD:
       state = state.set('password', payload)
@@ -48,7 +59,7 @@ export default function reducer (state = initialState, { type, payload }) {
       return state.merge({error: payload, submitted: false, success: false})
 
     case CLEAR_FORM:
-      return initialState
+      return state.merge({error: false, submitted: false, success: false})
 
     default:
       return state
@@ -75,6 +86,10 @@ export function changeMobile (mobile) {
 
 export function changeEmail (email) {
   return { type: CHANGE_EMAIL, payload: email }
+}
+
+export function validEmail (flag) {
+  return { type: VALID_EMAIL, payload: flag }
 }
 
 export function changePassword (password) {
@@ -139,6 +154,10 @@ export function isComplete (state) {
   return root(state).complete
 }
 
+export function getErrors (state) {
+  return root(state).errors
+}
+
 // thunks -----------
 
 export function submit () {
@@ -158,20 +177,17 @@ export function submit () {
   }
 }
 
-export function resetPassword () {
+export function validateEmail (email) {
   return async (dispatch, getState) => {
-    const state = getState()
-    const email = getEmail(state)
+    dispatch(changeEmail(email))
 
-    dispatch(submitted())
-
-    const response = await fetchUtil('user/resetPassword', 'POST', null, {email})
+    const response = await fetchUtil('user/validateEmail', 'POST', null, {email})
     const result = await response.json()
 
     if (result.success) {
-      dispatch(setSuccess())
+      dispatch(validEmail(true))
     } else {
-      dispatch(failure(result.error))
+      dispatch(validEmail(false))
     }
   }
 }

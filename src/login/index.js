@@ -1,21 +1,17 @@
-import { createSelector } from 'reselect'
-
-import {fetchUtil} from '../utils'
+import { fetchUtil } from '../utils'
 import { LoginState } from './records'
-import history from '../history'
-// import { getEmail } from '../register';
 
 const NS = 'LOGIN_'
 
 const CHANGE_EMAIL = `${NS}CHANGE_EMAIL`
 const CHANGE_PASSWORD = `${NS}CHANGE_PASSWORD`
-const LOGIN_SUBMITTED = `${NS}SUBMITTED`
-const LOGIN_SUCCESS = `${NS}SUCCESS`
-const LOGIN_FAILURE = `${NS}FAILURE`
+const SUBMITTED = `${NS}SUBMITTED`
+const SUCCESS = `${NS}SUCCESS`
+const FAILURE = `${NS}FAILURE`
 const SET_TOKEN = `${NS}SET_TOKEN`
-const SET_AUTH = `${NS}SET_AUTH`
 const INITIALIZING = `${NS}INITIALIZING`
 const CLEAR_FORM = `${NS}CLEAR_FORM`
+const EMAIL_ERROR = `${NS}EMAIL_ERROR`
 
 const initialState = new LoginState()
 
@@ -26,18 +22,18 @@ export default function reducer (state = initialState, { type, payload }) {
       return state.set('complete', complete(state))
 
     case CHANGE_PASSWORD:
-    state = state.set('password', payload)
-    return state.set('complete', complete(state))
+      state = state.set('password', payload)
+      return state.set('complete', complete(state))
 
-    case LOGIN_SUBMITTED:
+    case SUBMITTED:
       return state.set('submitted', true)
 
-    case LOGIN_SUCCESS:
+    case SUCCESS:
       const {token, isAdmin} = payload
 
       return state.merge({token, isAdmin, submitted: false, error: null})
 
-    case LOGIN_FAILURE:
+    case FAILURE:
       return state.merge({error: payload, submitted: false})
 
     case SET_TOKEN:
@@ -46,8 +42,11 @@ export default function reducer (state = initialState, { type, payload }) {
     case INITIALIZING:
       return state.set('initializing', payload)
 
+    case EMAIL_ERROR:
+      return state.set('emailError', true)
+
     case CLEAR_FORM:
-      return initialState
+      return state.merge({error: false, submitted: false})
 
     default:
       return state
@@ -69,15 +68,15 @@ export function changePassword (password) {
 }
 
 export function submitted () {
-  return { type: LOGIN_SUBMITTED }
+  return { type: SUBMITTED }
 }
 
 export function failure (response) {
-  return { type: LOGIN_FAILURE, payload: response }
+  return { type: FAILURE, payload: response }
 }
 
 export function success (token, isAdmin) {
-  return { type: LOGIN_SUCCESS, payload: {token, isAdmin} }
+  return { type: SUCCESS, payload: {token, isAdmin} }
 }
 
 export function setToken (token) {
@@ -90,6 +89,10 @@ export function setInitializing (state) {
 
 export function clearForm (state) {
   return { type: CLEAR_FORM }
+}
+
+export function emailError () {
+  return { type: EMAIL_ERROR }
 }
 
 // selectors ------------------
@@ -126,6 +129,10 @@ export function isComplete (state) {
   return root(state).complete
 }
 
+export function isInitializing (state) {
+  return root(state).initializing
+}
+
 // thunks -----------
 
 export function submit () {
@@ -149,15 +156,14 @@ export function submit () {
 
 export function initialize () {
   return async (dispatch, getState, {window, localStorage, token}) => {
-    const state = getState()
-
     if (!token) return
 
+    dispatch(setToken(token))
     dispatch(setInitializing(true))
 
     const response = await fetchUtil('auth/authenticate', 'GET', token, false)
     const result = await response.json()
-    const {error, authenticated, isAdmin} = result
+    const {error, isAdmin} = result
 
     dispatch(setInitializing(false))
 
@@ -165,7 +171,7 @@ export function initialize () {
       localStorage.setItem('token', '')
       // dispatch(failure(error))
       // history.push('/login')
-      window.history.pushState({}, "Login", "/login/error")
+      window.history.pushState({}, 'Login', '/login/error')
       window.location.reload()
     } else {
       localStorage.setItem('token', token)

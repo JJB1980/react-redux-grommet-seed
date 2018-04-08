@@ -18,8 +18,10 @@ import LoginForm from '../login/components/LoginForm'
 import RegisterForm from '../register/components/Register'
 import ForgotPassword from '../forgotPassword/components/ForgotPassword'
 import Menu from './Menu'
+import Spinning from '../components/Spinning'
+
 import { location } from '../utils'
-import { getToken, isAdmin } from '../login'
+import { getToken, isAdmin, isInitializing } from '../login'
 
 import './App.scss'
 
@@ -36,7 +38,13 @@ export class App extends React.Component {
   }
 
   render () {
-    const {token, isAdmin} = this.props
+    const {token, isAdmin, initializing} = this.props
+
+    if (initializing) {
+      return <GrommetApp>
+        <Spinning />
+      </GrommetApp>
+    }
 
     if (token === '' && location(this.props, /(\/register$)/)) {
       return <GrommetApp>
@@ -88,7 +96,8 @@ export class App extends React.Component {
 function mapStateToProps (state) {
   return {
     token: getToken(state),
-    isAdmin: isAdmin(state)
+    isAdmin: isAdmin(state),
+    initializing: isInitializing(state)
   }
 }
 

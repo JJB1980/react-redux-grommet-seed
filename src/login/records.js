@@ -8,5 +8,6 @@ export const LoginState = new Record({
   error: null,
   isAdmin: false,
   token: '',
-  complete: false
+  complete: false,
+  emailError: false
 }, 'LoginState')

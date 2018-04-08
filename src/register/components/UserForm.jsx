@@ -8,6 +8,8 @@ import TextInput from 'grommet/components/TextInput'
 
 import { bindDom } from '../../utils'
 
+import HelpText from '../../components/HelpText'
+
 export function LoginForm (props) {
   const {
     firstName,
@@ -23,28 +25,31 @@ export function LoginForm (props) {
     changeLastName,
     changeMobile,
     changeEmail,
-    changePassword
+    changePassword,
+    errors,
+    validateEmail
   } = props
 
   return <Box pad={{between: 'small', horizontal: 'small'}} margin={{bottom: 'small'}}>
     <FormFields>
-      <FormField label='First Name'>
-        <TextInput name='firstName' disabled={submitted} required autoFocus value={firstName} onDOMChange={bindDom(changeFirstName)} />
+      <FormField label='First Name *'>
+        <TextInput name='firstName *' disabled={submitted} required autoFocus value={firstName} onDOMChange={bindDom(changeFirstName)} />
       </FormField>
       <FormField label='Last Name'>
-        <TextInput name='lasttName' disabled={submitted} required value={lastName} onDOMChange={bindDom(changeLastName)} />
+        <TextInput name='lasttName *' disabled={submitted} required value={lastName} onDOMChange={bindDom(changeLastName)} />
       </FormField>
-      <FormField label='Mobile'>
+      <FormField label='Mobile *'>
         <TextInput name='mobile' disabled={submitted} required value={mobile} onDOMChange={bindDom(changeMobile)} />
       </FormField>
     </FormFields>
     <FormFields>
-      <FormField label='Email'>
-        <TextInput name='email' disabled={submitted} required value={email} onDOMChange={bindDom(changeEmail)} />
+      <FormField label='Email *' error={errors.get('email')}>
+        <TextInput name='email' disabled={submitted} required value={email} onDOMChange={bindDom(validateEmail)} />
       </FormField>
-      <FormField label='Password'>
+      <FormField label='Password *'>
         <PasswordInput name='password' disabled={submitted} required value={password} onChange={bindDom(changePassword)} />
       </FormField>
+      <HelpText>* denotes a required field</HelpText>
     </FormFields>
   </Box>
 }
