@@ -1,5 +1,6 @@
-import { fetchUtil } from '../utils'
+import { fetchUtil, EMAIL_REGEX } from '../utils'
 import { ForgotPasswordState } from './records'
+import { doValidateEmail } from '../register'
 
 const NS = 'FORGOT_PASSWORD_'
 
@@ -8,13 +9,24 @@ const SUBMITTED = `${NS}SUBMITTED`
 const SUCCESS = `${NS}SUCESS`
 const FAILURE = `${NS}FAILURE`
 const CLEAR_FORM = `${NS}CLEAR_FORM`
+const VALID_EMAIL = `${NS}VALID_EMAIL`
 
 const initialState = new ForgotPasswordState()
 
 export default function reducer (state = initialState, { type, payload }) {
   switch (type) {
     case CHANGE_EMAIL:
-      return state.set('email', payload)
+      const {errors} = state
+      const result = payload.match(EMAIL_REGEX)
+
+      state = state.merge({
+        email: payload,
+        errors: !result ? errors.set('email', 'Invalid email.') : errors.delete('email')
+      })
+      return state.set('complete', complete(state))
+
+    case VALID_EMAIL:
+      return state.set('errors', !payload ? state.errors : state.errors.set('email', 'No account found.'))
 
     case SUBMITTED:
       return state.set('submitted', true)
@@ -31,6 +43,10 @@ export default function reducer (state = initialState, { type, payload }) {
     default:
       return state
   }
+}
+
+function complete (state) {
+  return state.email
 }
 
 // actions --------------------
@@ -55,6 +71,10 @@ export function clearForm () {
   return { type: CLEAR_FORM }
 }
 
+export function validEmail (flag) {
+  return { type: VALID_EMAIL, payload: flag }
+}
+
 // selectors ------------------
 
 function root (state) {
@@ -77,6 +97,14 @@ export function getSuccess (state) {
   return root(state).success
 }
 
+export function isComplete (state) {
+  return root(state).complete
+}
+
+export function getErrors (state) {
+  return root(state).errors
+}
+
 // thunks -----------
 
 export function submit () {
@@ -93,6 +121,20 @@ export function submit () {
       dispatch(setSuccess())
     } else {
       dispatch(failure(result.error))
+    }
+  }
+}
+
+export function validateEmail (email) {
+  return async (dispatch, getState) => {
+    dispatch(changeEmail(email))
+
+    const result = await doValidateEmail(email)
+
+    if (result.success) {
+      dispatch(validEmail(true))
+    } else {
+      dispatch(validEmail(false))
     }
   }
 }

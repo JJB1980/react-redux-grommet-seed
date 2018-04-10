@@ -2,6 +2,8 @@ import fetch from 'cross-fetch'
 
 import {development} from './config.json'
 
+export const EMAIL_REGEX = /\S+@\S+\.\S+/
+
 export function location (props, route) {
   return props.location && props.location.pathname && props.location.pathname.match(route)
 }

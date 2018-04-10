@@ -28,7 +28,9 @@ import {
   getSubmitted,
   getSuccess,
   getError,
-  clearForm
+  clearForm,
+  isComplete,
+  getErrors
 } from '../'
 import {getToken} from '../../login'
 
@@ -40,7 +42,9 @@ export class ForgotPassword extends AuthComponent {
       submitted,
       success,
       submit,
-      changeEmail
+      changeEmail,
+      complete,
+      errors
     } = this.props
 
     function handleSubmit (event) {
@@ -48,7 +52,7 @@ export class ForgotPassword extends AuthComponent {
       submit()
     }
 
-    const buttonType = submitted ? null : 'submit'
+    const buttonType = submitted || !complete || errors.size ? null : 'submit'
 
     return <Box basis='full' align='center' margin={{top: 'large'}}>
       <Form onSubmit={handleSubmit}>
@@ -58,7 +62,7 @@ export class ForgotPassword extends AuthComponent {
         <Box pad='small'>
           <Heading tag='h3'>Forgot password</Heading>
           <FormFields>
-            <FormField label='Email'>
+            <FormField label='Email' error={errors.get('email')}>
               <TextInput autoFocus value={email} onDOMChange={bindDom(changeEmail)} />
             </FormField>
           </FormFields>
@@ -81,7 +85,9 @@ function mapStateToProps (state) {
     error: getError(state),
     submitted: getSubmitted(state),
     success: getSuccess(state),
-    token: getToken(state)
+    token: getToken(state),
+    complete: isComplete(state),
+    errors: getErrors(state)
   }
 }
 

@@ -1,4 +1,4 @@
-import { fetchUtil } from '../utils'
+import { fetchUtil, EMAIL_REGEX } from '../utils'
 import { RegisterState } from './records'
 
 const NS = 'REGISTER_'
@@ -14,7 +14,6 @@ const SIGNUP_FAILURE = `${NS}FAILURE`
 const CLEAR_FORM = `${NS}CLEAR_FORM`
 const VALID_EMAIL = `${NS}VALID_EMAIL`
 
-const EMAIL_REGEX = /\S+@\S+\.\S+/
 
 const initialState = new RegisterState()
 
@@ -181,8 +180,7 @@ export function validateEmail (email) {
   return async (dispatch, getState) => {
     dispatch(changeEmail(email))
 
-    const response = await fetchUtil('user/validateEmail', 'POST', null, {email})
-    const result = await response.json()
+    const result = await doValidateEmail(email)
 
     if (result.success) {
       dispatch(validEmail(true))
@@ -190,4 +188,11 @@ export function validateEmail (email) {
       dispatch(validEmail(false))
     }
   }
+}
+
+export async function doValidateEmail (email) {
+  const response = await fetchUtil('user/validateEmail', 'POST', null, {email})
+  const result = await response.json()
+
+  return result
 }
