@@ -46,7 +46,8 @@ export default function reducer (state = initialState, { type, payload }) {
       return state.set('emailError', true)
 
     case CLEAR_FORM:
-      return state.merge({error: false, submitted: false})
+      // return state.merge({error: false, submitted: false})
+      return initialState
 
     default:
       return state
