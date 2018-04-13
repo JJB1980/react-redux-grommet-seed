@@ -13,11 +13,12 @@ import Split from 'grommet/components/Split'
 import Title from 'grommet/components/Title'
 import MenuIcon from 'grommet/components/icons/base/Menu'
 
-import Routes from '../routes'
-import LoginForm from '../login/components/LoginForm'
-import RegisterForm from '../register/components/Register'
+import AuthRoutes from '../routesAuth'
 import ForgotPassword from '../forgotPassword/components/ForgotPassword'
+import LoginForm from '../login/components/LoginForm'
 import Menu from './Menu'
+import RegisterForm from '../register/components/Register'
+import Routes from '../routes'
 import Spinning from '../components/Spinning'
 
 import { location } from '../utils'
@@ -46,21 +47,9 @@ export class App extends React.Component {
       </GrommetApp>
     }
 
-    if (token === '' && location(this.props, /(\/register$)/)) {
+    if (token === '') {
       return <GrommetApp>
-        <RegisterForm />
-      </GrommetApp>
-    }
-
-    if (token === '' && location(this.props, /(\/resetPassword$)/)) {
-      return <GrommetApp>
-        <ForgotPassword />
-      </GrommetApp>
-    }
-
-    if (token === '' || location(this.props, /(\/login$)/)) {
-      return <GrommetApp>
-        <LoginForm />
+        <AuthRoutes />
       </GrommetApp>
     }
 

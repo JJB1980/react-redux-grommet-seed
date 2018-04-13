@@ -78,7 +78,7 @@ export class LoginForm extends AuthComponent {
         <Box pad={{between: 'small', horizontal: 'small'}}>
           <Button fill label='Login' primary type={buttonType} />
           <Anchor fill label='Register' type='button' href='/register' />
-          <Link to='/resetPassword'>Forgot your password?</Link>
+          <Link to='/requestResetPassword'>Forgot your password?</Link>
         </Box>
       </Form>
     </Box>

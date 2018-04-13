@@ -9,6 +9,7 @@ import Form from 'grommet/components/Form'
 import FormField from 'grommet/components/FormField'
 import FormFields from 'grommet/components/FormFields'
 import Heading from 'grommet/components/Heading'
+import PasswordInput from 'grommet/components/PasswordInput'
 import TextInput from 'grommet/components/TextInput'
 
 import { Helmet } from 'react-helmet'
@@ -30,11 +31,24 @@ import {
   getError,
   clearForm,
   isComplete,
-  getErrors
+  getErrors,
+  validateToken,
+  changePassword,
+  getPassword,
+  resetPassword,
+  getPasswordResetSuccess
 } from '../'
 import {getToken} from '../../login'
 
 export class ForgotPassword extends AuthComponent {
+  componentDidMount () {
+    const {token} = this.props.match.params
+
+    if (token) {
+      this.props.validateToken(token)
+    }
+  }
+
   render () {
     const {
       email,
@@ -44,12 +58,24 @@ export class ForgotPassword extends AuthComponent {
       submit,
       changeEmail,
       complete,
-      errors
+      errors,
+      match,
+      password,
+      changePassword,
+      resetPassword,
+      passwordResetSuccess
     } = this.props
+
+    const {token} = match.params
 
     function handleSubmit (event) {
       event.preventDefault()
-      submit()
+
+      if (token) {
+        resetPassword()
+      } else {
+        submit()
+      }
     }
 
     const buttonType = submitted || !complete || errors.size ? null : 'submit'
@@ -63,11 +89,15 @@ export class ForgotPassword extends AuthComponent {
           <Heading tag='h3'>Forgot password</Heading>
           <FormFields>
             <FormField label='Email' error={errors.get('email')}>
-              <TextInput autoFocus value={email} onDOMChange={bindDom(changeEmail)} />
+              <TextInput autoFocus disabled={token} id='email' name='email' value={email} onDOMChange={bindDom(changeEmail)} />
             </FormField>
+            {token && <FormField label='New Password'>
+              <PasswordInput name='password' disabled={submitted} required value={password} onChange={bindDom(changePassword)} />
+            </FormField>}
           </FormFields>
         </Box>
         {error && <Notification status='warning' message={error} />}
+        {passwordResetSuccess && <Notification status='ok' message='Password reset.' />}
         {success && <Notification status='ok' message='Email sent.' />}
         {submitted && <Spinning />}
         <Box pad={{between: 'small', horizontal: 'small'}}>
@@ -87,7 +117,9 @@ function mapStateToProps (state) {
     success: getSuccess(state),
     token: getToken(state),
     complete: isComplete(state),
-    errors: getErrors(state)
+    errors: getErrors(state),
+    password: getPassword(state),
+    passwordResetSuccess: getPasswordResetSuccess(state)
   }
 }
 
@@ -95,7 +127,10 @@ function mapDispatchToProps (dispatch) {
   return bindActionCreators({
     submit,
     changeEmail,
-    clearForm
+    clearForm,
+    changePassword,
+    validateToken,
+    resetPassword
   }, dispatch)
 }
 
