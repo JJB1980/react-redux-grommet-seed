@@ -36,7 +36,8 @@ import {
   changePassword,
   getPassword,
   resetPassword,
-  getPasswordResetSuccess
+  getPasswordResetSuccess,
+  getValidateError
 } from '../'
 import {getToken} from '../../login'
 
@@ -63,7 +64,8 @@ export class ForgotPassword extends AuthComponent {
       password,
       changePassword,
       resetPassword,
-      passwordResetSuccess
+      passwordResetSuccess,
+      validateError
     } = this.props
 
     const {token} = match.params
@@ -87,15 +89,16 @@ export class ForgotPassword extends AuthComponent {
         </Helmet>
         <Box pad='small'>
           <Heading tag='h3'>Forgot password</Heading>
-          <FormFields>
+          {!validateError && <FormFields>
             <FormField label='Email' error={errors.get('email')}>
               <TextInput autoFocus disabled={token} id='email' name='email' value={email} onDOMChange={bindDom(changeEmail)} />
             </FormField>
             {token && <FormField label='New Password'>
               <PasswordInput name='password' disabled={submitted} required value={password} onChange={bindDom(changePassword)} />
             </FormField>}
-          </FormFields>
+          </FormFields>}
         </Box>
+        {validateError && <Notification status='warning' message={validateError} />}
         {error && <Notification status='warning' message={error} />}
         {passwordResetSuccess && <Notification status='ok' message='Password reset.' />}
         {success && <Notification status='ok' message='Email sent.' />}
@@ -119,7 +122,8 @@ function mapStateToProps (state) {
     complete: isComplete(state),
     errors: getErrors(state),
     password: getPassword(state),
-    passwordResetSuccess: getPasswordResetSuccess(state)
+    passwordResetSuccess: getPasswordResetSuccess(state),
+    validateError: getValidateError(state)
   }
 }
 

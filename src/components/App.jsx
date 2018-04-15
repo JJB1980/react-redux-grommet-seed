@@ -14,6 +14,7 @@ import Title from 'grommet/components/Title'
 import MenuIcon from 'grommet/components/icons/base/Menu'
 
 import AuthRoutes from '../routesAuth'
+import Footer from './Footer'
 import ForgotPassword from '../forgotPassword/components/ForgotPassword'
 import LoginForm from '../login/components/LoginForm'
 import Menu from './Menu'
@@ -34,6 +35,17 @@ export class App extends React.Component {
     this.toggleSidebar = this.toggleSidebar.bind(this)
   }
 
+  componentWillUpdate (nextProps) {
+    const {history, token} = nextProps
+
+    if ((location(nextProps, /(\/login$)/) ||
+        location(nextProps, /(\/resetPassword)/) ||
+        location(nextProps, /(\/requestResetPassword$)/) ||
+        location(nextProps, /(\/register$)/)) && token) {
+      history.push('/')
+    }
+  }
+
   toggleSidebar () {
     this.setState({sidebar: !this.state.sidebar})
   }
@@ -44,13 +56,15 @@ export class App extends React.Component {
     if (initializing) {
       return <GrommetApp>
         <Spinning />
+        <Footer />
       </GrommetApp>
     }
 
     if (token === '') {
       return <GrommetApp>
         <AuthRoutes />
-      </GrommetApp>
+        <Footer />
+     </GrommetApp>
     }
 
     const title = isAdmin ? 'ISADMIN' : 'Grommet App'
@@ -74,10 +88,11 @@ export class App extends React.Component {
               pad='medium'
             >
               <Routes />
+              <Footer />
             </Box>
-          </Split>
+         </Split>
         </Box>
-      </GrommetApp>
+     </GrommetApp>
     </Grommet>
   }
 }

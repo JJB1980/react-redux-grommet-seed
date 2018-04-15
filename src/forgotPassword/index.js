@@ -1,6 +1,5 @@
 import { fetchUtil, EMAIL_REGEX } from '../utils'
 import { ForgotPasswordState } from './records'
-import { doValidateEmail } from '../register'
 
 const NS = 'FORGOT_PASSWORD_'
 
@@ -9,9 +8,9 @@ const CHANGE_PASSWORD = `${NS}CHANGE_PASSWORD`
 const SUBMITTED = `${NS}SUBMITTED`
 const SUCCESS = `${NS}SUCESS`
 const RESET_PASSWORD_SUCCESS = `${NS}RESET_PASSWORD_SUCCESS`
+const VALIDATE_ERROR = `${NS}VALIDATE_ERROR`
 const FAILURE = `${NS}FAILURE`
 const CLEAR_FORM = `${NS}CLEAR_FORM`
-const VALID_EMAIL = `${NS}VALID_EMAIL`
 const SET_TOKEN = `${NS}SET_TOKEN`
 
 const initialState = new ForgotPasswordState()
@@ -36,8 +35,8 @@ export default function reducer (state = initialState, { type, payload }) {
     case SET_TOKEN:
       return state.set('token', payload)
 
-    case VALID_EMAIL:
-      return state.set('errors', !payload ? state.errors : state.errors.set('email', 'No account found.'))
+    case VALIDATE_ERROR:
+      return state.set('validateError', payload)
 
     case SUBMITTED:
       return state.set('submitted', payload)
@@ -85,6 +84,10 @@ export function failure (response) {
   return { type: FAILURE, payload: response }
 }
 
+export function validateError (error) {
+  return { type: VALIDATE_ERROR, payload: error }
+}
+
 export function setSuccess () {
   return { type: SUCCESS, payload: true }
 }
@@ -95,10 +98,6 @@ export function setPasswordResetSuccess () {
 
 export function clearForm () {
   return { type: CLEAR_FORM }
-}
-
-export function validEmail (flag) {
-  return { type: VALID_EMAIL, payload: flag }
 }
 
 // selectors ------------------
@@ -117,6 +116,10 @@ export function getPassword (state) {
 
 export function getError (state) {
   return root(state).error
+}
+
+export function getValidateError (state) {
+  return root(state).validateError
 }
 
 export function getSubmitted (state) {
@@ -177,7 +180,7 @@ export function validateToken (token) {
     if (success) {
       dispatch(changeEmail(email))
     } else {
-      dispatch(failure(error))
+      dispatch(validateError(error))
     }
   }
 }
@@ -201,20 +204,6 @@ export function resetPassword () {
       dispatch(setPasswordResetSuccess())
     } else {
       dispatch(failure(error))
-    }
-  }
-}
-
-export function validateEmail (email) {
-  return async (dispatch, getState) => {
-    dispatch(changeEmail(email))
-
-    const result = await doValidateEmail(email)
-
-    if (result.success) {
-      dispatch(validEmail(true))
-    } else {
-      dispatch(validEmail(false))
     }
   }
 }

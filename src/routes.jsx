@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Link } from 'react-router-dom'
+import { Route, Link, Switch } from 'react-router-dom'
 
 import Hello from './hello/components/home'
 import LoginForm from './login/components/LoginForm'
@@ -16,10 +16,11 @@ const Home = (props) => {
 
 export default () => {
   return (
-    <div>
+    <Switch>
       <Route exact path='/' component={Home} />
       <Route exact path='/test/:arg1' component={Home} />
       <Route exact path='/hello' component={Hello} />
-    </div>
+      <Route nomatch component={() => <div>404</div>} />
+    </Switch>
   )
 }

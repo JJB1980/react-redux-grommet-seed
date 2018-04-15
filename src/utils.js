@@ -5,7 +5,9 @@ import {development} from './config.json'
 export const EMAIL_REGEX = /\S+@\S+\.\S+/
 
 export function location (props, route) {
-  return props.location && props.location.pathname && props.location.pathname.match(route)
+  const {location} = props
+
+  return location && location.pathname && location.pathname.match(route)
 }
 
 export function fetchUtil (uri, method, token, body) {

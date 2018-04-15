@@ -6,6 +6,7 @@ export const ForgotPasswordState = new Record({
   token: '',
   submitted: false,
   error: false,
+  validateError: false,
   success: false,
   passwordResetSuccess: false,
   complete: false,

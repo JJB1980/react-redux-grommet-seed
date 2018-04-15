@@ -8,7 +8,6 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import App from './components/App'
 import configureStore from './store'
 import initialize from './initialize'
-import history from './history'
 import './styles.scss'
 
 const store = configureStore()
