@@ -4,18 +4,15 @@ import { connect } from 'react-redux'
 import { withRouter, Redirect } from 'react-router-dom'
 
 import Box from 'grommet/components/Box'
-import Button from 'grommet/components/Button'
 import GrommetApp from 'grommet/components/App'
 import Grommet from 'grommet/components/Grommet'
-import Header from 'grommet/components/Header'
 import Sidebar from 'grommet/components/Sidebar'
 import Split from 'grommet/components/Split'
-import Title from 'grommet/components/Title'
-import MenuIcon from 'grommet/components/icons/base/Menu'
 
 import AuthRoutes from '../routesAuth'
 import Footer from './Footer'
 import ForgotPassword from '../forgotPassword/components/ForgotPassword'
+import Header from '../components/Header'
 import LoginForm from '../login/components/LoginForm'
 import Menu from './Menu'
 import RegisterForm from '../register/components/Register'
@@ -72,12 +69,7 @@ export class App extends React.Component {
     return <Grommet>
       <GrommetApp centered={false}>
         <Box>
-          <Header colorIndex='neutral-2'>
-            <Button id='App__menu-toggle' icon={<MenuIcon />} onClick={this.toggleSidebar} />
-            <Title pad='small'>
-            {title}
-            </Title>
-          </Header>
+          <Header toggleSidebar={this.toggleSidebar} title={title} />
           <Split className='full-width' flex='right' priority={this.state.sidebar ? 'left' : 'right'}>
             <Sidebar colorIndex='neutral-1' pad='medium' size='small' onClick={this.toggleSidebar}>
               <Menu />

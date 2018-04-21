@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Anchor from 'grommet/components/ANchor'
+import Anchor from 'grommet/components/Anchor'
 import Box from 'grommet/components/Box'
 import Button from 'grommet/components/Button'
 import GrrommetFooter from 'grommet/components/Footer'
@@ -29,6 +29,7 @@ export default function Footer () {
         direction='row'
         flex
         justify='end'
+        responsive={false}
       >
         <Button icon={<SocialMailIcon />} size='small' href='mailto:a@b.c'/>
         <Button icon={<SocialTwitterIcon />} href='https://twitter.com'/>

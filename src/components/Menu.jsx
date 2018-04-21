@@ -4,13 +4,11 @@ import { bindActionCreators } from 'redux'
 
 import GrommetMenu from 'grommet/components/Menu'
 
-import { signOut } from './'
 import MenuItem from './MenuItem'
 
 export function Menu (props) {
   return <GrommetMenu>
     <MenuItem to='/' >Home</MenuItem>
-    <MenuItem to='/#' onClick={props.signOut}>Sign out</MenuItem>
   </GrommetMenu>
 }
 
@@ -19,7 +17,7 @@ function mapStateToProps (state) {
 }
 
 function mapDispatchToProps (dispatch) {
-  return bindActionCreators({signOut}, dispatch)
+  return bindActionCreators({}, dispatch)
 }
 
 export default connect(

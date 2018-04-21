@@ -165,7 +165,7 @@ export function submit () {
 
     dispatch(submitted())
 
-    const response = await fetchUtil('user/register', 'POST', null, {email, password, firstName, lastName, mobile})
+    const response = await dispatch(fetchUtil('user/register', 'POST', {email, password, firstName, lastName, mobile}))
     const {error, success} = await response.json()
 
     if (!success) {
@@ -191,7 +191,7 @@ export function validateEmail (email) {
 }
 
 export async function doValidateEmail (email) {
-  const response = await fetchUtil('user/validateEmail', 'POST', null, {email})
+  const response = await dispatch(fetchUtil('user/validateEmail', 'POST', {email}))
   const result = await response.json()
 
   return result

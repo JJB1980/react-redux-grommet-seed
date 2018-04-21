@@ -10,15 +10,17 @@ export function location (props, route) {
   return location && location.pathname && location.pathname.match(route)
 }
 
-export function fetchUtil (uri, method, token, body) {
-  return fetch(`${development.host}${uri}`, {
-    method,
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': token
-    },
-    body: body ? JSON.stringify(body) : null
-  })
+export function fetchUtil (uri, method, body) {
+  return async (dispatch, getState, {token}) => {
+    return fetch(`${development.host}${uri}`, {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token
+      },
+      body: body ? JSON.stringify(body) : null
+    })
+  }
 }
 
 export function bindDom (callback) {

@@ -12,6 +12,8 @@ const SET_TOKEN = `${NS}SET_TOKEN`
 const INITIALIZING = `${NS}INITIALIZING`
 const CLEAR_FORM = `${NS}CLEAR_FORM`
 const EMAIL_ERROR = `${NS}EMAIL_ERROR`
+const FIRSTNAME = `${NS}FIRSTNAME`
+const LASTNAME = `${NS}LASTNAME`
 
 const initialState = new LoginState()
 
@@ -29,9 +31,9 @@ export default function reducer (state = initialState, { type, payload }) {
       return state.set('submitted', true)
 
     case SUCCESS:
-      const {token, isAdmin} = payload
+      const {token, isAdmin, firstname, lastname} = payload
 
-      return state.merge({token, isAdmin, submitted: false, error: null})
+      return state.merge({token, isAdmin, firstname, lastname, submitted: false, error: null})
 
     case FAILURE:
       return state.merge({error: payload, submitted: false})
@@ -44,6 +46,12 @@ export default function reducer (state = initialState, { type, payload }) {
 
     case EMAIL_ERROR:
       return state.set('emailError', true)
+
+    case FIRSTNAME:
+      return state.set('firstname', payload)
+
+    case LASTNAME:
+      return state.set('lastname', payload)
 
     case CLEAR_FORM:
       // return state.merge({error: false, submitted: false})
@@ -76,8 +84,8 @@ export function failure (response) {
   return { type: FAILURE, payload: response }
 }
 
-export function success (token, isAdmin) {
-  return { type: SUCCESS, payload: {token, isAdmin} }
+export function success (token, isAdmin, firstname, lastname) {
+  return { type: SUCCESS, payload: {token, isAdmin, firstname, lastname} }
 }
 
 export function setToken (token) {
@@ -134,6 +142,14 @@ export function isInitializing (state) {
   return root(state).initializing
 }
 
+export function getFirstname (state) {
+  return root(state).firstname
+}
+
+export function getLastname (state) {
+  return root(state).lastname
+}
+
 // thunks -----------
 
 export function submit () {
@@ -142,15 +158,16 @@ export function submit () {
 
     dispatch(submitted())
 
-    const response = await fetchUtil('auth/login', 'POST', null, {email, password})
-    const {error, token, isAdmin} = await response.json()
+    const response = await dispatch(fetchUtil('auth/login', 'POST', {email, password}))
+    const result = await response.json()
+    const {error, token, isAdmin, firstname, lastname}  = result
 
     if (error) {
       localStorage.setItem('token', '')
       dispatch(failure(error))
     } else {
       localStorage.setItem('token', token)
-      dispatch(success(token, isAdmin))
+      dispatch(success(token, isAdmin, firstname, lastname))
     }
   }
 }
@@ -162,9 +179,9 @@ export function initialize () {
     dispatch(setToken(token))
     dispatch(setInitializing(true))
 
-    const response = await fetchUtil('auth/authenticate', 'GET', token, false)
+    const response = await dispatch(fetchUtil('auth/authenticate', 'GET', false))
     const result = await response.json()
-    const {error, isAdmin} = result
+    const {error, isAdmin, firstname, lastname} = result
 
     dispatch(setInitializing(false))
 
@@ -176,7 +193,14 @@ export function initialize () {
       window.location.reload()
     } else {
       localStorage.setItem('token', token)
-      dispatch(success(token, isAdmin))
+      dispatch(success(token, isAdmin, firstname, lastname))
     }
+  }
+}
+
+export function signOut () {
+  return (dispatch, _, {localStorage}) => {
+    localStorage.setItem('token', '')
+    dispatch(setToken(''))
   }
 }

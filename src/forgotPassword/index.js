@@ -155,7 +155,7 @@ export function submit () {
 
     dispatch(submitted())
 
-    const response = await fetchUtil('user/requestPasswordReset', 'POST', null, {email})
+    const response = await dispatch(fetchUtil('user/requestPasswordReset', 'POST', {email}))
     const result = await response.json()
 
     if (result.success) {
@@ -171,7 +171,7 @@ export function validateToken (token) {
     dispatch(submitted())
     dispatch(setToken(token))
 
-    const response = await fetchUtil(`user/validateResetPassword/${token}`, 'POST', null, {token})
+    const response = await dispatch(fetchUtil(`user/validateResetPassword/${token}`, 'POST', {token}))
     const result = await response.json()
 
     const {success, email, error} = result
@@ -194,7 +194,7 @@ export function resetPassword () {
 
     dispatch(submitted())
 
-    const response = await fetchUtil(`user/resetPassword/${token}`, 'POST', null, {email, password})
+    const response = await dispatch(fetchUtil(`user/resetPassword/${token}`, 'POST', {email, password}))
     const result = await response.json()
 
     const {success, error} = result

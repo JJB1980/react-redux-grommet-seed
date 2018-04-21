@@ -59,7 +59,7 @@ export class LoginForm extends AuthComponent {
     return <Box basis='full' align='center' margin={{top: 'large'}}>
       <Form onSubmit={handleSubmit}>
         <Helmet>
-          <title>Signup</title>
+          <title>Register</title>
         </Helmet>
         <Box margin={{left: 'small', top: 'small'}}>
           <Heading tag='h3'>Register</Heading>
