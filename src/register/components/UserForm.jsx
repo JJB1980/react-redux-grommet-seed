@@ -1,5 +1,6 @@
 import React from 'react'
 
+import Button from 'grommet/components/Button'
 import Box from 'grommet/components/Box'
 import FormField from 'grommet/components/FormField'
 import FormFields from 'grommet/components/FormFields'
@@ -9,6 +10,7 @@ import TextInput from 'grommet/components/TextInput'
 import { bindDom } from '../../utils'
 
 import HelpText from '../../components/HelpText'
+import Notification from '../../components/Notification'
 
 export function LoginForm (props) {
   const {
@@ -27,31 +29,57 @@ export function LoginForm (props) {
     changeEmail,
     changePassword,
     errors,
-    validateEmail
+    validateEmail,
+    onClickSave,
+    onClickUpdatePassword,
+    noValidateEmail,
+    passwordUpdated,
+    passwordUpdateError,
+    changeConfirmPassword,
+    confirmPassword,
+    complete
   } = props
+
+  const buttonType = !complete || errors.size ? null : 'submit'
 
   return <Box pad={{between: 'small', horizontal: 'small'}} margin={{bottom: 'small'}}>
     <FormFields>
-      <FormField label='First Name *'>
-        <TextInput name='firstName *' disabled={submitted} required autoFocus value={firstName} onDOMChange={bindDom(changeFirstName)} />
+      <FormField label={`First name ${onClickSave ? '' : '*'}`}>
+        <TextInput name='firstName' disabled={submitted} required autoFocus value={firstName} onDOMChange={bindDom(changeFirstName)} />
       </FormField>
-      <FormField label='Last Name'>
-        <TextInput name='lasttName *' disabled={submitted} required value={lastName} onDOMChange={bindDom(changeLastName)} />
+      <FormField label={`Last name ${onClickSave ? '' : '*'}`}>
+        <TextInput name='lasttName' disabled={submitted} required value={lastName} onDOMChange={bindDom(changeLastName)} />
       </FormField>
-      <FormField label='Mobile *'>
+      <FormField label={`Mobile ${onClickSave ? '' : '*'}`}>
         <TextInput name='mobile' disabled={submitted} required value={mobile} onDOMChange={bindDom(changeMobile)} />
       </FormField>
+      {onClickSave && <FormField label='Email' error={errors.get('email')}>
+        <TextInput name='email' disabled={submitted} required value={email} onDOMChange={bindDom(noValidateEmail ? changeEmail : validateEmail)} />
+      </FormField>}
     </FormFields>
+    {onClickSave && <Box>
+      <Button primary fill onClick={buttonType ? onClickSave : null} label='Save' type={buttonType} />
+      {error && <Notification margin={{top: 'small'}} status='warning' message={error} />}
+      {success && <Notification margin={{top: 'small'}} status='ok' message='Profile updated.' />}
+    </Box>}
     <FormFields>
-      <FormField label='Email *' error={errors.get('email')}>
+      {!onClickSave && <FormField label='Email *' error={errors.get('email')}>
         <TextInput name='email' disabled={submitted} required value={email} onDOMChange={bindDom(validateEmail)} />
-      </FormField>
-      <FormField label='Password *'>
+      </FormField>}
+      {onClickUpdatePassword && <FormField label='Confirm password'>
+        <PasswordInput name='password' disabled={submitted} required value={confirmPassword} onChange={bindDom(changeConfirmPassword)} />
+      </FormField>}
+      <FormField label={onClickUpdatePassword ? 'New password' : 'Password *'}>
         <PasswordInput name='password' disabled={submitted} required value={password} onChange={bindDom(changePassword)} />
       </FormField>
-      <HelpText>* denotes a required field</HelpText>
+      {!onClickSave && <HelpText>* denotes a required field</HelpText>}
     </FormFields>
-  </Box>
+    {onClickUpdatePassword && <Box>
+      <Button fill onClick={confirmPassword && password ? onClickUpdatePassword : null} label='Update password' />
+      {passwordUpdateError && <Notification margin={{top: 'small'}} status='warning' message={passwordUpdateError} />}
+      {passwordUpdated && <Notification margin={{top: 'small'}} status='ok' message='Password updated.' />}
+   </Box>}
+ </Box>
 }
 
 export default LoginForm

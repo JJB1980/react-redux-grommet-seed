@@ -1,14 +1,19 @@
 import { Map, Record } from 'immutable'
 
 export const RegisterState = new Record({
-  firstName: '',
-  lastName: '',
+  firstname: '',
+  lastname: '',
   mobile: '',
   email: '',
   password: '',
+  confirmPassword: '',
   submitted: false,
   error: null,
   success: null,
   complete: false,
-  errors: Map()
+  errors: Map(),
+  fetching: false,
+  passwordUpdated: false,
+  passwordUpdateError: null,
+  profileLoaded: false
 }, 'RegisterState')

@@ -168,12 +168,14 @@ export function submit () {
     } else {
       localStorage.setItem('token', token)
       dispatch(success(token, isAdmin, firstname, lastname))
+      dispatch(setToken(token))
     }
   }
 }
 
 export function initialize () {
-  return async (dispatch, getState, {window, localStorage, token}) => {
+  return async (dispatch, getState, {window, localStorage, getToken}) => {
+    const token = getToken()
     if (!token) return
 
     dispatch(setToken(token))

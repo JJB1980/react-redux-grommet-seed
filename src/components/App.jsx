@@ -76,8 +76,8 @@ export class App extends React.Component {
             </Sidebar>
             <Box
               justify='center'
-              align='center'
               pad='medium'
+              responsive
             >
               <Routes />
               <Footer />

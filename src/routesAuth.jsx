@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Link } from 'react-router-dom'
+import { Route, Link, Switch } from 'react-router-dom'
 
 import Hello from './hello/components/home'
 import LoginForm from './login/components/LoginForm'
@@ -8,13 +8,14 @@ import ForgotPassword from './forgotPassword/components/ForgotPassword'
 
 export default () => {
   return (
-    <div>
+    <Switch>
       <Route exact path='/' component={LoginForm} />
       <Route exact path='/requestResetPassword' component={ForgotPassword} />
       <Route exact path='/resetPassword/:token' component={ForgotPassword} />
       <Route exact path='/login' component={LoginForm} />
       <Route exact path='/login/error' component={LoginForm} />
       <Route exact path='/register' component={RegisterForm} />
-    </div>
+      <Route nomatch component={LoginForm} />
+   </Switch>
   )
 }

@@ -1,7 +1,5 @@
-const token = window.localStorage.getItem('token')
-
 export default {
-  token,
+  getToken: () => window.localStorage.getItem('token'),
   window,
   localStorage: window.localStorage
 }

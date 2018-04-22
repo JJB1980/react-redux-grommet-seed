@@ -11,7 +11,9 @@ export function location (props, route) {
 }
 
 export function fetchUtil (uri, method, body) {
-  return async (dispatch, getState, {token}) => {
+  return async (dispatch, getState, {getToken}) => {
+    const token = getToken()
+    console.log(uri, method, !!token, body)
     return fetch(`${development.host}${uri}`, {
       method,
       headers: {
