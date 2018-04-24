@@ -14,13 +14,16 @@ const Home = (props) => {
   </div>
 }
 
-export default () => {
+export default function Routes (props) {
+  const {isAdmin} = props
+
   return (
     <Switch>
       <Route exact path='/' component={Home} />
       <Route exact path='/test/:arg1' component={Home} />
       <Route exact path='/hello' component={Hello} />
       <Route exact path='/profile' component={Profile} />
+      {isAdmin && <Route exact path='/users' component={Hello} />}
       <Route nomatch component={() => <div>404</div>} />
     </Switch>
   )

@@ -15,7 +15,7 @@ import TextInput from 'grommet/components/TextInput'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 
-import { bindDom } from '../../utils'
+import { bindDom, bindSubmit } from '../../utils'
 import Anchor from '../../components/Anchor'
 import AuthComponent from '../../components/AuthComponent'
 import Notification from '../../components/Notification'
@@ -51,13 +51,8 @@ export class LoginForm extends AuthComponent {
     } = this.props
     const buttonType = submitted || !isComplete ? null : 'submit'
 
-    function handleSubmit (event) {
-      event.preventDefault()
-      submit()
-    }
-
     return <Box basis='full' align='center' margin={{top: 'large'}}>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={submit}>
         <Helmet>
           <title>Login</title>
         </Helmet>
@@ -65,10 +60,10 @@ export class LoginForm extends AuthComponent {
           <Heading tag='h3'>Log in</Heading>
           <FormFields>
             <FormField label='Email'>
-              <TextInput name='email' disabled={submitted} required autoFocus value={username} onDOMChange={bindDom(changeEmail)} />
+              <TextInput name='email' disabled={submitted} required autoFocus value={username} onDOMChange={changeEmail} />
             </FormField>
             <FormField label='Password'>
-              <PasswordInput name='password' disabled={submitted} required value={password} onChange={bindDom(changePassword)} />
+              <PasswordInput name='password' disabled={submitted} required value={password} onChange={changePassword} />
             </FormField>
           </FormFields>
         </Box>
@@ -97,7 +92,12 @@ function mapStateToProps (state) {
 }
 
 function mapDispatchToProps (dispatch) {
-  return bindActionCreators({changeEmail, changePassword, submit, clearForm}, dispatch)
+  return bindActionCreators({
+    changeEmail: bindDom(changeEmail),
+    changePassword: bindDom(changePassword),
+    submit: bindSubmit(submit),
+    clearForm
+  }, dispatch)
 }
 
 export default withRouter(connect(

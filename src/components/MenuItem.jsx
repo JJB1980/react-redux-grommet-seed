@@ -1,16 +1,18 @@
 import React from 'react'
 import classnames from 'classnames'
 
-import { Link, withRouter } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import './MenuItem.scss'
 
-export function MenuItem (props) {
-  const {location: {pathname}, children} = props
+export class MenuItem extends React.Component {
+  render () {
+    const {location: {pathname}, children, to, onClick} = this.props
 
-  return <div className={classnames({'menu-item': true, 'menu-item--active': pathname === props.to})}>
-    <Link to={props.to} onClick={props.onClick}>{children}</Link>
-  </div>
+    return <div className={classnames({'menu-item': true, 'menu-item--active': pathname === to})}>
+      <Link to={to} onClick={onClick}>{children}</Link>
+    </div>
+  }
 }
 
-export default withRouter(MenuItem)
+export default MenuItem

@@ -70,7 +70,7 @@ export class App extends React.Component {
       <GrommetApp centered={false}>
         <Box>
           <Header toggleSidebar={this.toggleSidebar} title={title} />
-          <Split className='full-width' flex='right' priority={this.state.sidebar ? 'left' : 'right'}>
+          <Split className='full-width' fixed flex='right' priority={this.state.sidebar ? 'left' : 'right'}>
             <Sidebar colorIndex='neutral-1' pad='medium' size='small' onClick={this.toggleSidebar}>
               <Menu />
             </Sidebar>
@@ -79,7 +79,7 @@ export class App extends React.Component {
               pad='medium'
               responsive
             >
-              <Routes />
+              <Routes isAdmin={isAdmin} />
               <Footer />
             </Box>
          </Split>

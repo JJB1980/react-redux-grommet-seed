@@ -30,3 +30,11 @@ export function bindDom (callback) {
     return callback(event.target.value)
   }
 }
+
+
+export function bindSubmit (callback) {
+  return (event) => {
+    event.preventDefault()
+    return callback()
+  }
+}

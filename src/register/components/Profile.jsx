@@ -16,7 +16,8 @@ import Anchor from '../../components/Anchor'
 import Notification from '../../components/Notification'
 import Spinning from '../../components/Spinning'
 
-import {getToken} from '../../login'
+import { bindDom, bindSubmit } from '../../utils'
+import { getToken } from '../../login'
 import {
   changeFirstName,
   changeLastName,
@@ -46,7 +47,9 @@ import {
 
 export class Profile extends React.Component {
   componentDidMount() {
-    this.props.fetchProfile()
+    const {clearForm, fetchProfile} = this.props
+    clearForm()
+    fetchProfile()
   }
 
   render () {
@@ -60,13 +63,8 @@ export class Profile extends React.Component {
       updatePassword
     } = this.props
 
-    function handleSubmit (event) {
-      event.preventDefault()
-      submit()
-    }
-
     return <Box basis='full' align='center'>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={submit}>
         <Helmet>
           <title>Profile</title>
         </Helmet>
@@ -106,16 +104,16 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return bindActionCreators({
-    changeFirstName,
-    changeLastName,
-    changeMobile,
-    changeEmail,
-    changePassword,
-    changeConfirmPassword,
+    changeFirstName: bindDom(changeFirstName),
+    changeLastName: bindDom(changeLastName),
+    changeMobile: bindDom(changeMobile),
+    changeEmail: bindDom(changeEmail),
+    changePassword: bindDom(changePassword),
+    changeConfirmPassword: bindDom(changePassword),
     clearForm,
     validateEmail,
     fetchProfile,
-    updateProfile,
+    updateProfile: bindSubmit(updateProfile),
     updatePassword
   }, dispatch)
 }

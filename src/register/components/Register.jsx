@@ -16,7 +16,8 @@ import Anchor from '../../components/Anchor'
 import Notification from '../../components/Notification'
 import Spinning from '../../components/Spinning'
 
-import {getToken} from '../../login'
+import { bindDom, bindSubmit } from '../../utils'
+import { getToken } from '../../login'
 import {
   changeFirstName,
   changeLastName,
@@ -49,15 +50,10 @@ export class LoginForm extends AuthComponent {
       errors
     } = this.props
 
-    function handleSubmit (event) {
-      event.preventDefault()
-      submit()
-    }
-
     const buttonType = submitted || !complete || errors.size ? null : 'submit'
 
     return <Box basis='full' align='center' margin={{top: 'large'}}>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={submit}>
         <Helmet>
           <title>Register</title>
         </Helmet>
@@ -95,14 +91,14 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return bindActionCreators({
-    changeFirstName,
-    changeLastName,
-    changeMobile,
-    changeEmail,
-    changePassword,
-    submit,
+    changeFirstName: bindDom(changeFirstName),
+    changeLastName: bindDom(changeLastName),
+    changeMobile: bindDom(changeMobile),
+    changeEmail: bindDom(changeEmail),
+    changePassword: bindDom(changePassword),
+    submit: bindSubmit(submit),
     clearForm,
-    validateEmail
+    validateEmail: bindDom(validateEmail)
   }, dispatch)
 }
 

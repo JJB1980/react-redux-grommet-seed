@@ -159,8 +159,7 @@ export function submit () {
     dispatch(submitted())
 
     const response = await dispatch(fetchUtil('auth/login', 'POST', {email, password}))
-    const result = await response.json()
-    const {error, token, isAdmin, firstname, lastname}  = result
+    const {error, token, isAdmin, firstname, lastname} = await response.json()
 
     if (error) {
       localStorage.setItem('token', '')
@@ -182,8 +181,7 @@ export function initialize () {
     dispatch(setInitializing(true))
 
     const response = await dispatch(fetchUtil('auth/authenticate', 'GET', false))
-    const result = await response.json()
-    const {error, isAdmin, firstname, lastname} = result
+    const {error, isAdmin, firstname, lastname} = await response.json()
 
     dispatch(setInitializing(false))
 

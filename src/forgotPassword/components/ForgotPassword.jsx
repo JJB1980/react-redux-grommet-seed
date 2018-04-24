@@ -20,7 +20,7 @@ import AuthComponent from '../../components/AuthComponent'
 import Notification from '../../components/Notification'
 import Spinning from '../../components/Spinning'
 
-import { bindDom } from '../../utils'
+import { bindDom, bindSubmit } from '../../utils'
 
 import {
   changeEmail,
@@ -91,10 +91,10 @@ export class ForgotPassword extends AuthComponent {
           <Heading tag='h3'>Forgot password</Heading>
           {!validateError && <FormFields>
             <FormField label='Email' error={errors.get('email')}>
-              <TextInput autoFocus disabled={token} id='email' name='email' value={email} onDOMChange={bindDom(changeEmail)} />
+              <TextInput autoFocus disabled={token} id='email' name='email' value={email} onDOMChange={changeEmail} />
             </FormField>
             {token && <FormField label='New Password'>
-              <PasswordInput name='password' disabled={submitted} required value={password} onChange={bindDom(changePassword)} />
+              <PasswordInput name='password' disabled={submitted} required value={password} onChange={changePassword} />
             </FormField>}
           </FormFields>}
         </Box>
@@ -130,9 +130,9 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
   return bindActionCreators({
     submit,
-    changeEmail,
+    changeEmail: bindDom(changeEmail),
     clearForm,
-    changePassword,
+    changePassword: bindDom(changePassword),
     validateToken,
     resetPassword
   }, dispatch)

@@ -7,8 +7,6 @@ import FormFields from 'grommet/components/FormFields'
 import PasswordInput from 'grommet/components/PasswordInput'
 import TextInput from 'grommet/components/TextInput'
 
-import { bindDom } from '../../utils'
-
 import HelpText from '../../components/HelpText'
 import Notification from '../../components/Notification'
 
@@ -45,16 +43,16 @@ export function LoginForm (props) {
   return <Box pad={{between: 'small', horizontal: 'small'}} margin={{bottom: 'small'}}>
     <FormFields>
       <FormField label={`First name ${onClickSave ? '' : '*'}`}>
-        <TextInput name='firstName' disabled={submitted} required autoFocus value={firstName} onDOMChange={bindDom(changeFirstName)} />
+        <TextInput name='firstName' disabled={submitted} required autoFocus value={firstName} onDOMChange={changeFirstName} />
       </FormField>
       <FormField label={`Last name ${onClickSave ? '' : '*'}`}>
-        <TextInput name='lasttName' disabled={submitted} required value={lastName} onDOMChange={bindDom(changeLastName)} />
+        <TextInput name='lasttName' disabled={submitted} required value={lastName} onDOMChange={changeLastName} />
       </FormField>
       <FormField label={`Mobile ${onClickSave ? '' : '*'}`}>
-        <TextInput name='mobile' disabled={submitted} required value={mobile} onDOMChange={bindDom(changeMobile)} />
+        <TextInput name='mobile' disabled={submitted} required value={mobile} onDOMChange={changeMobile} />
       </FormField>
       {onClickSave && <FormField label='Email' error={errors.get('email')}>
-        <TextInput name='email' disabled={submitted} required value={email} onDOMChange={bindDom(noValidateEmail ? changeEmail : validateEmail)} />
+        <TextInput name='email' disabled={submitted} required value={email} onDOMChange={noValidateEmail ? changeEmail : validateEmail} />
       </FormField>}
     </FormFields>
     {onClickSave && <Box>
@@ -64,13 +62,13 @@ export function LoginForm (props) {
     </Box>}
     <FormFields>
       {!onClickSave && <FormField label='Email *' error={errors.get('email')}>
-        <TextInput name='email' disabled={submitted} required value={email} onDOMChange={bindDom(validateEmail)} />
+        <TextInput name='email' disabled={submitted} required value={email} onDOMChange={validateEmail} />
       </FormField>}
       {onClickUpdatePassword && <FormField label='Confirm password'>
-        <PasswordInput name='password' disabled={submitted} required value={confirmPassword} onChange={bindDom(changeConfirmPassword)} />
+        <PasswordInput name='password' disabled={submitted} value={confirmPassword} onChange={changeConfirmPassword} />
       </FormField>}
       <FormField label={onClickUpdatePassword ? 'New password' : 'Password *'}>
-        <PasswordInput name='password' disabled={submitted} required value={password} onChange={bindDom(changePassword)} />
+        <PasswordInput name='password' disabled={submitted} value={password} onChange={changePassword} />
       </FormField>
       {!onClickSave && <HelpText>* denotes a required field</HelpText>}
     </FormFields>
