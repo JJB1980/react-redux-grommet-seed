@@ -19,10 +19,20 @@ import {
   getUsers,
   isFetching,
   fetchUsers,
-  getError
+  getError,
+  sortUsers
 } from '../'
+import {isSmall} from '~/src/login'
 
 export class UsersForm extends React.Component {
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      ascending: true
+    }
+  }
+
   componentDidMount() {
     this.props.fetchUsers()
   }
@@ -31,8 +41,16 @@ export class UsersForm extends React.Component {
     const {
       users,
       fetching,
-      error
+      error,
+      small,
+      sortUsers
     } = this.props
+
+    const sortFunction = () => {
+      const {ascending} = this.state
+      this.setState({ascending: !ascending})
+      sortUsers(ascending)
+    }
 
     return <Box align='center'>
       <Form>
@@ -40,8 +58,13 @@ export class UsersForm extends React.Component {
           <title>Users</title>
         </Helmet>
         <Heading tag='h3'>Users</Heading>
-        <Table>
-          <TableHeader labels={['Email', 'First name', 'Last name', 'Mobile', 'Admin']} />
+        <Table responsive={small}>
+          <TableHeader
+            labels={['Email', 'First name', 'Last name', 'Mobile', 'Admin']}
+            sortIndex={0}
+            sortAscending={this.state.ascending}
+            onSort={sortFunction}
+          />
           <tbody>
             {users.map(user => {
               return <TableRow key={user.id}>
@@ -65,13 +88,15 @@ function mapStateToProps (state) {
   return {
     users: getUsers(state),
     fetching: isFetching(state),
-    error: getError(state)
+    error: getError(state),
+    small: isSmall(state)
   }
 }
 
 function mapDispatchToProps (dispatch) {
   return bindActionCreators({
-    fetchUsers
+    fetchUsers,
+    sortUsers
   }, dispatch)
 }
 

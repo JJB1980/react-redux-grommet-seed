@@ -14,6 +14,7 @@ const CLEAR_FORM = `${NS}CLEAR_FORM`
 const EMAIL_ERROR = `${NS}EMAIL_ERROR`
 const FIRSTNAME = `${NS}FIRSTNAME`
 const LASTNAME = `${NS}LASTNAME`
+const SMALL = `${NS}SMALL`
 
 const initialState = new LoginState()
 
@@ -53,6 +54,9 @@ export default function reducer (state = initialState, { type, payload }) {
     case LASTNAME:
       return state.set('lastname', payload)
 
+    case SMALL:
+      return state.set('isSmall', payload)
+
     case CLEAR_FORM:
       // return state.merge({error: false, submitted: false})
       return initialState
@@ -67,6 +71,10 @@ function complete ({email, password}) {
 }
 
 // actions --------------------
+
+export function setSmall (flag) {
+  return { type: SMALL, payload: flag }
+}
 
 export function changeEmail (email) {
   return { type: CHANGE_EMAIL, payload: email }
@@ -150,7 +158,25 @@ export function getLastname (state) {
   return root(state).lastname
 }
 
+export function isSmall (state) {
+  return root(state).isSmall
+}
+
 // thunks -----------
+
+const resizeWindow = (window, dispatch) => {
+  if (window.innerWidth < 720) {
+    dispatch(setSmall(true))
+  } else {
+    dispatch(setSmall(false))
+  }
+}
+
+export function resize () {
+  return async (dispatch, _, {window}) => {
+    window.onresize = resizeWindow.bind(this, window, dispatch)
+  }
+}
 
 export function submit () {
   return async (dispatch, getState, {localStorage}) => {
@@ -179,6 +205,8 @@ export function initialize () {
 
     dispatch(setToken(token))
     dispatch(setInitializing(true))
+
+    resizeWindow(window, dispatch)
 
     const response = await dispatch(fetchUtil('auth/authenticate', 'GET', false))
     const {error, isAdmin, firstname, lastname} = await response.json()

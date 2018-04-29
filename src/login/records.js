@@ -11,5 +11,6 @@ export const LoginState = new Record({
   complete: false,
   emailError: false,
   firstname: '',
-  lastname: ''
+  lastname: '',
+  isSmall: false
 }, 'LoginState')

@@ -5,6 +5,7 @@ import { UsersState, loadUsers } from './records'
 
 const NS = 'USERS_'
 
+const USERS = `${NS}USERS`
 const FETCHING = `${NS}FETCHING`
 const SUCCESS = `${NS}SUCCESS`
 const FAILURE = `${NS}FAILURE`
@@ -22,6 +23,9 @@ export default function reducer (state = initialState, { type, payload }) {
 
     case FAILURE:
       return state.merge({users: List(), error: payload})
+
+    case USERS:
+      return state.set('users', payload)
 
     case CLEAR_FORM:
       return initialState
@@ -45,6 +49,10 @@ export function fetching (flag) {
   return { type: FETCHING, payload: flag }
 }
 
+export function setUsers (users) {
+  return { type: USERS, payload: users }
+}
+
 // selectors ------------------
 
 function root (state) {
@@ -65,8 +73,23 @@ export function getError (state) {
 
 // thunks -----------
 
+export function sortUsers (ascending) {
+  return async (dispatch, getState) => {
+    const users = getUsers(getState())
+
+    const sortedUsers = users.sort((a, b) => {
+      if (ascending) {
+        return a.email < b.email
+      }
+      return a.email > b.email
+    })
+
+    dispatch(setUsers(sortedUsers))
+  }
+}
+
 export function fetchUsers () {
-  return async (dispatch, getState, {window, localStorage, getToken}) => {
+  return async (dispatch, getState) => {
     dispatch(fetching(true))
 
     const response = await dispatch(fetchUtil('user/selectUsers', 'GET', false))

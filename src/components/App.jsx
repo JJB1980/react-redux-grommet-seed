@@ -20,7 +20,7 @@ import Routes from '../routes'
 import Spinning from '../components/Spinning'
 
 import { location } from '../utils'
-import { getToken, isAdmin, isInitializing } from '../login'
+import { getToken, isAdmin, isInitializing, resize } from '../login'
 
 import './App.scss'
 
@@ -30,6 +30,10 @@ export class App extends React.Component {
 
     this.state = {sidebar: false}
     this.toggleSidebar = this.toggleSidebar.bind(this)
+  }
+
+  componentDidMount () {
+    this.props.resize()
   }
 
   componentWillUpdate (nextProps) {
@@ -75,8 +79,7 @@ export class App extends React.Component {
               <Menu />
             </Sidebar>
             <Box
-              full='horizontal'
-              align='left'
+              justify='center'
               pad='medium'
               responsive
             >
@@ -99,7 +102,7 @@ function mapStateToProps (state) {
 }
 
 function mapDispatchToProps (dispatch) {
-  return bindActionCreators({}, dispatch)
+  return bindActionCreators({resize}, dispatch)
 }
 
 export default withRouter(connect(
