@@ -75,7 +75,8 @@ export class App extends React.Component {
               <Menu />
             </Sidebar>
             <Box
-              justify='center'
+              full='horizontal'
+              align='left'
               pad='medium'
               responsive
             >

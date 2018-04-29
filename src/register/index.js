@@ -167,19 +167,19 @@ function root (state) {
 }
 
 export function getFirstName (state) {
-  return root(state).firstname.trim()
+  return root(state).firstname
 }
 
 export function getLastName (state) {
-  return root(state).lastname.trim()
+  return root(state).lastname
 }
 
 export function getMobile (state) {
-  return root(state).mobile.trim()
+  return root(state).mobile
 }
 
 export function getEmail (state) {
-  return root(state).email.trim()
+  return root(state).email
 }
 
 export function getPassword (state) {

@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet'
 
 import Hello from './hello/components/home'
 import Profile from './register/components/Profile'
+import UsersForm from './users/components/Users'
 
 const Home = (props) => {
   console.log(props.match.params.arg1)
@@ -23,7 +24,7 @@ export default function Routes (props) {
       <Route exact path='/test/:arg1' component={Home} />
       <Route exact path='/hello' component={Hello} />
       <Route exact path='/profile' component={Profile} />
-      {isAdmin && <Route exact path='/users' component={Hello} />}
+      {isAdmin && <Route exact path='/users' component={UsersForm} />}
       <Route nomatch component={() => <div>404</div>} />
     </Switch>
   )

@@ -4,9 +4,9 @@ import {BrowserRouter as Router } from 'react-router-dom'
 
 import GrommetApp from 'grommet/components/App'
 
-import {App} from '../../../src/components/App'
-import {LoginForm} from '../../../src/login/components/LoginForm'
-import configureStore from '../../../src/store'
+import {App} from '~/src/components/App'
+import {LoginForm} from '~/src/login/components/LoginForm'
+import configureStore from '~/src/store'
 
 describe('<App />', () => {
   let wrapper

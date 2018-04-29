@@ -15,12 +15,12 @@ import TextInput from 'grommet/components/TextInput'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 
-import Anchor from '../../components/Anchor'
-import AuthComponent from '../../components/AuthComponent'
-import Notification from '../../components/Notification'
-import Spinning from '../../components/Spinning'
+import Anchor from '~/src/components/Anchor'
+import AuthComponent from '~/src/components/AuthComponent'
+import Notification from '~/src/components/Notification'
+import Spinning from '~/src/components/Spinning'
 
-import { bindDom, bindSubmit } from '../../utils'
+import { bindDom, bindSubmit } from '~/src/utils'
 
 import {
   changeEmail,
@@ -39,7 +39,7 @@ import {
   getPasswordResetSuccess,
   getValidateError
 } from '../'
-import {getToken} from '../../login'
+import {getToken} from '~/src/login'
 
 export class ForgotPassword extends AuthComponent {
   componentDidMount () {

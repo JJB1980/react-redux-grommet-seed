@@ -2,7 +2,8 @@
   "plugins": [
     "babel-plugin-transform-object-rest-spread",
     "transform-react-jsx",
-    "syntax-async-functions"
+    "syntax-async-functions",
+    "babel-plugin-root-import"
   ],
   "presets": ["env", "es2015", "stage-0", "react"]
 }

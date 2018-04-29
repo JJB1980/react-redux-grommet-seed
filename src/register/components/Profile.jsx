@@ -109,7 +109,7 @@ function mapDispatchToProps (dispatch) {
     changeMobile: bindDom(changeMobile),
     changeEmail: bindDom(changeEmail),
     changePassword: bindDom(changePassword),
-    changeConfirmPassword: bindDom(changePassword),
+    changeConfirmPassword: bindDom(changeConfirmPassword),
     clearForm,
     validateEmail,
     fetchProfile,
