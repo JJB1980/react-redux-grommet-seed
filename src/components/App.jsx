@@ -20,7 +20,8 @@ import Routes from '../routes'
 import Spinning from '../components/Spinning'
 
 import { location } from '../utils'
-import { getToken, isAdmin, isInitializing, resize } from '../login'
+import { getToken, isAdmin, isInitializing } from '../login'
+import { resize } from '../components'
 
 import './App.scss'
 

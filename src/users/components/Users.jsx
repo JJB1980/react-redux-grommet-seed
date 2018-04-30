@@ -22,7 +22,7 @@ import {
   getError,
   sortUsers
 } from '../'
-import {isSmall} from '~/src/login'
+import {isSmall} from '~/src/components'
 
 export class UsersForm extends React.Component {
   constructor (props) {
@@ -72,7 +72,7 @@ export class UsersForm extends React.Component {
                 <td>{user.firstname}</td>
                 <td>{user.lastname}</td>
                 <td>{user.mobile}</td>
-                <td>{user.admin}</td>
+                <td>{user.admin ? 'yes' : 'no'}</td>
               </TableRow>
             })}
           </tbody>
