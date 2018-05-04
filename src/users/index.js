@@ -73,15 +73,30 @@ export function getError (state) {
 
 // thunks -----------
 
-export function sortUsers (ascending) {
+export function sortUsers (ascending, which) {
   return async (dispatch, getState) => {
     const users = getUsers(getState())
 
     const sortedUsers = users.sort((a, b) => {
-      if (ascending) {
-        return a.email < b.email
+      switch (which) {
+        case 0:
+          return ascending ? a.email < b.email : a.email > b.email
+
+        case 1: {
+          const {firstname : a_val} = a
+          const {firstname : b_val} = b
+
+          return ascending ? a_val.toUpperCase() < b_val.toUpperCase() : a_val.toUpperCase() > b_val.toUpperCase()
+        }
+        case 2: {
+          const {lastname : a_val} = a
+          const {lastname : b_val} = b
+
+          return ascending ? a_val.toUpperCase() < b_val.toUpperCase() : a_val.toUpperCase() > b_val.toUpperCase()
+        }
+        case 4:
+          return ascending ? a.admin < b.admin : a.admin > b.admin
       }
-      return a.email > b.email
     })
 
     dispatch(setUsers(sortedUsers))

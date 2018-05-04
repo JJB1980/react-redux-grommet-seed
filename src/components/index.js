@@ -39,8 +39,9 @@ export const resizeWindow = (window, dispatch) => {
   }
 }
 
-export function resize () {
+export function initialize () {
   return async (dispatch, _, {window}) => {
     window.onresize = resizeWindow.bind(this, window, dispatch)
+    resizeWindow(window, dispatch)
   }
 }

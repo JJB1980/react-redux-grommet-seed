@@ -183,8 +183,6 @@ export function initialize () {
     dispatch(setToken(token))
     dispatch(setInitializing(true))
 
-    resizeWindow(window, dispatch)
-
     const response = await dispatch(fetchUtil('auth/authenticate', 'GET', false))
     const {error, isAdmin, firstname, lastname} = await response.json()
 

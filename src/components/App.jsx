@@ -21,7 +21,6 @@ import Spinning from '../components/Spinning'
 
 import { location } from '../utils'
 import { getToken, isAdmin, isInitializing } from '../login'
-import { resize } from '../components'
 
 import './App.scss'
 
@@ -31,10 +30,6 @@ export class App extends React.Component {
 
     this.state = {sidebar: false}
     this.toggleSidebar = this.toggleSidebar.bind(this)
-  }
-
-  componentDidMount () {
-    this.props.resize()
   }
 
   componentWillUpdate (nextProps) {
@@ -103,7 +98,7 @@ function mapStateToProps (state) {
 }
 
 function mapDispatchToProps (dispatch) {
-  return bindActionCreators({resize}, dispatch)
+  return bindActionCreators({}, dispatch)
 }
 
 export default withRouter(connect(

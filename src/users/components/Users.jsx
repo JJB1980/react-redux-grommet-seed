@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import classnames from 'classnames'
 
 import Box from 'grommet/components/Box'
 import Form from 'grommet/components/Form'
@@ -24,17 +25,35 @@ import {
 } from '../'
 import {isSmall} from '~/src/components'
 
+const labels = [
+  ['Email', { sortable: true }],
+  ['First name', { sortable: true }],
+  ['Last name', { sortable: true }],
+  ['Mobile', { sortable: false }],
+  ['Admin', { sortable: true }]
+]
+
 export class UsersForm extends React.Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      ascending: true
+      ascending: true,
+      sortIndex: 0
     }
+
+    this.sortFunction = this.sortFunction.bind(this)
   }
 
   componentDidMount() {
     this.props.fetchUsers()
+  }
+
+  sortFunction (which) {
+    const {ascending} = this.state
+    this.setState({ascending: !ascending, sortIndex: which})
+
+    this.props.sortUsers(ascending, which)
   }
 
   render () {
@@ -46,11 +65,7 @@ export class UsersForm extends React.Component {
       sortUsers
     } = this.props
 
-    const sortFunction = () => {
-      const {ascending} = this.state
-      this.setState({ascending: !ascending})
-      sortUsers(ascending)
-    }
+    const {ascending, sortIndex} = this.state
 
     return <Box align='center'>
       <Form>
@@ -58,12 +73,13 @@ export class UsersForm extends React.Component {
           <title>Users</title>
         </Helmet>
         <Heading tag='h3'>Users</Heading>
-        <Table responsive={small}>
+        <Table responsive={small} className={classnames({'reposition-table': !small})}>
           <TableHeader
-            labels={['Email', 'First name', 'Last name', 'Mobile', 'Admin']}
+            labels={labels}
             sortIndex={0}
-            sortAscending={this.state.ascending}
-            onSort={sortFunction}
+            sortAscending={ascending}
+            sortIndex={sortIndex}
+            onSort={this.sortFunction}
           />
           <tbody>
             {users.map(user => {
