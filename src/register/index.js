@@ -266,7 +266,7 @@ export function fetchProfile () {
   return async (dispatch, getState) => {
     dispatch(fetching(true))
 
-    const result = await dispatch(fetchUtil('user/fetchProfile', 'GET', null))
+    const result = await dispatch(fetchUtil('user/fetchProfile', 'GET'))
     const json = await result.json()
 
     dispatch(fetching(false))

@@ -22,7 +22,7 @@ export default function Footer () {
       responsive={false}
     >
       <Box size='large' full='horizontal' pad='small' flex >
-        © 2018 Bowden Technology
+        © {new Date().getFullYear()} Bowden Technology
       </Box>
       <Box
         className='footer-support'

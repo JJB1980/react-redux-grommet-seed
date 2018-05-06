@@ -10,7 +10,7 @@ export function location (props, route) {
   return location && location.pathname && location.pathname.match(route)
 }
 
-export function fetchUtil (uri, method, body) {
+export function fetchUtil (uri, method, body = false) {
   return async (dispatch, getState, {getToken}) => {
     const token = getToken()
     console.log(uri, method, !!token, body)
@@ -30,7 +30,6 @@ export function bindDom (callback) {
     return callback(event.target.value)
   }
 }
-
 
 export function bindSubmit (callback) {
   return (event) => {

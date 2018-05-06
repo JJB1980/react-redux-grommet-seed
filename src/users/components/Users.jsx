@@ -25,7 +25,7 @@ import {
 } from '../'
 import {isSmall} from '~/src/components'
 
-const labels = [
+const headerLabels = [
   ['Email', { sortable: true }],
   ['First name', { sortable: true }],
   ['Last name', { sortable: true }],
@@ -75,7 +75,8 @@ export class UsersForm extends React.Component {
         <Heading tag='h3'>Users</Heading>
         <Table responsive={small} className={classnames({'reposition-table': !small})}>
           <TableHeader
-            labels={labels}
+            className='table-header'
+            labels={headerLabels}
             sortIndex={0}
             sortAscending={ascending}
             sortIndex={sortIndex}

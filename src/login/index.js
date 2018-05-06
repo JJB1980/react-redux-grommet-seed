@@ -183,7 +183,7 @@ export function initialize () {
     dispatch(setToken(token))
     dispatch(setInitializing(true))
 
-    const response = await dispatch(fetchUtil('auth/authenticate', 'GET', false))
+    const response = await dispatch(fetchUtil('auth/authenticate', 'GET'))
     const {error, isAdmin, firstname, lastname} = await response.json()
 
     dispatch(setInitializing(false))

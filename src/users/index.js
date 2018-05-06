@@ -107,7 +107,7 @@ export function fetchUsers () {
   return async (dispatch, getState) => {
     dispatch(fetching(true))
 
-    const response = await dispatch(fetchUtil('user/selectUsers', 'GET', false))
+    const response = await dispatch(fetchUtil('user/selectUsers', 'GET'))
     const {error, success: responseSuccess, data} = await response.json()
 
     dispatch(fetching(false))
