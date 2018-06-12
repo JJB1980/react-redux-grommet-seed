@@ -270,7 +270,7 @@ export function fetchProfile () {
     const json = await result.json()
 
     dispatch(fetching(false))
-    dispatch(setProfile(json))
+    dispatch(setProfile(json.data))
   }
 }
 

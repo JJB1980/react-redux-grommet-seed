@@ -1,6 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 
+import Box from 'grommet/components/Box'
 import { Helmet } from 'react-helmet'
 
 import Hello from './hello/components/home'
@@ -11,7 +12,7 @@ const Home = (props) => {
   console.log(props.match.params.arg1)
   return <div>
     <Helmet><title>Home</title></Helmet>
-    <div>Home</div>
+    <Box align='center'>Home</Box>
   </div>
 }
 

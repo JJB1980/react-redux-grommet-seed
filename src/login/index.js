@@ -162,12 +162,14 @@ export function submit () {
     dispatch(submitted())
 
     const response = await dispatch(fetchUtil('auth/login', 'POST', {email, password}))
-    const {error, token, isAdmin, firstname, lastname} = await response.json()
+    const json = await response.json()
+    const {error} = json
 
     if (error) {
       localStorage.setItem('token', '')
       dispatch(failure(error))
     } else {
+      const {token, isAdmin, firstname, lastname} = json.data
       localStorage.setItem('token', token)
       dispatch(success(token, isAdmin, firstname, lastname))
       dispatch(setToken(token))
@@ -184,7 +186,8 @@ export function initialize () {
     dispatch(setInitializing(true))
 
     const response = await dispatch(fetchUtil('auth/authenticate', 'GET'))
-    const {error, isAdmin, firstname, lastname} = await response.json()
+    const json = await response.json()
+    const {error} = json
 
     dispatch(setInitializing(false))
 
@@ -195,6 +198,7 @@ export function initialize () {
       window.history.pushState({}, 'Login', '/login/error')
       window.location.reload()
     } else {
+      const {isAdmin, firstname, lastname} = json.data
       localStorage.setItem('token', token)
       dispatch(success(token, isAdmin, firstname, lastname))
     }

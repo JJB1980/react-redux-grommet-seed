@@ -31,5 +31,10 @@ $some-color: red;
 }
 
 .table-header span {
-  font-size: 0.8em !important;
+  font-size: 15px !important;
+}
+
+.realign-content {
+  position: relative;
+  left: -30px;
 }

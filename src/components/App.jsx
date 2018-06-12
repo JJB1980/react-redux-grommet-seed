@@ -2,6 +2,7 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { withRouter, Redirect } from 'react-router-dom'
+import classnames from 'classnames'
 
 import Box from 'grommet/components/Box'
 import GrommetApp from 'grommet/components/App'
@@ -21,6 +22,7 @@ import Spinning from '../components/Spinning'
 
 import { location } from '../utils'
 import { getToken, isAdmin, isInitializing } from '../login'
+import { isSmall } from '../components'
 
 import './App.scss'
 
@@ -48,7 +50,7 @@ export class App extends React.Component {
   }
 
   render () {
-    const {token, isAdmin, initializing} = this.props
+    const {token, isAdmin, initializing, isSmall} = this.props
 
     if (initializing) {
       return <GrommetApp>
@@ -78,8 +80,13 @@ export class App extends React.Component {
               justify='center'
               pad='medium'
               responsive
+              full='horizontal'
             >
-              <Routes isAdmin={isAdmin} />
+              <Box
+                className={classnames({'realign-content': !isSmall})}
+              >
+                <Routes isAdmin={isAdmin} />
+              </Box>
               <Footer />
             </Box>
          </Split>
@@ -93,7 +100,8 @@ function mapStateToProps (state) {
   return {
     token: getToken(state),
     isAdmin: isAdmin(state),
-    initializing: isInitializing(state)
+    initializing: isInitializing(state),
+    isSmall: isSmall(state)
   }
 }
 
