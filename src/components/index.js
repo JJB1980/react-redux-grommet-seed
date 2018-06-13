@@ -32,7 +32,7 @@ export function isSmall (state) {
 // thunks -----------
 
 export const resizeWindow = (window, dispatch) => {
-  if (window.innerWidth < 720) {
+  if (window.innerWidth < 820) {
     dispatch(setSmall(true))
   } else {
     dispatch(setSmall(false))
