@@ -9,7 +9,8 @@
     "test": "./node_modules/.bin/mocha ./test/suite/**/* --recursive --compilers js:babel-core/register --require babel-polyfill --require ignore-styles --require ./test/bootstrap.js ",
     "autotest": "./node_modules/.bin/mocha ./test/suite/**/* --recursive --require ignore-styles --require ./test/bootstrap.js --watch",
     "lint": "node_modules/.bin/eslint . --fix",
-    "coverage": "node_modules/.bin/nyc npm test"
+    "coverage": "node_modules/.bin/nyc npm test",
+    "start": "node ./server"
   },
   "repository": {
     "type": "git",

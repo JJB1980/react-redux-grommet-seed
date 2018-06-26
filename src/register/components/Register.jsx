@@ -66,7 +66,7 @@ export class LoginForm extends AuthComponent {
         {submitted && <Spinning />}
         <Box pad={{between: 'small', horizontal: 'small'}}>
           <Button fill label='Register' primary type={buttonType} />
-          <Anchor fill label='Login' type='button' href='/login' />
+          <Anchor label='Login' type='anchor' href='/login' />
         </Box>
       </Form>
     </Box>
