@@ -39,7 +39,7 @@ import {
   validateEmail
 } from '../'
 
-export class LoginForm extends AuthComponent {
+export class Register extends AuthComponent {
   render () {
     const {
       error,
@@ -105,4 +105,4 @@ function mapDispatchToProps (dispatch) {
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(LoginForm))
+)(Register))

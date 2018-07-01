@@ -20,7 +20,7 @@ import AuthComponent from '~/src/components/AuthComponent'
 import Notification from '~/src/components/Notification'
 import Spinning from '~/src/components/Spinning'
 
-import { bindDom, bindSubmit } from '~/src/utils'
+import { bindDom } from '~/src/utils'
 
 import {
   changeEmail,

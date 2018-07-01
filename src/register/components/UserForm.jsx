@@ -10,7 +10,7 @@ import TextInput from 'grommet/components/TextInput'
 import HelpText from '../../components/HelpText'
 import Notification from '../../components/Notification'
 
-export function LoginForm (props) {
+export function UserForm (props) {
   const {
     firstName,
     lastName,
@@ -80,4 +80,4 @@ export function LoginForm (props) {
  </Box>
 }
 
-export default LoginForm
+export default UserForm

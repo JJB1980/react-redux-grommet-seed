@@ -1,7 +1,5 @@
 import fetch from 'cross-fetch'
 
-import {development} from './config.json'
-
 export const EMAIL_REGEX = /\S+@\S+\.\S+/
 
 export function location (props, route) {
@@ -11,10 +9,10 @@ export function location (props, route) {
 }
 
 export function fetchUtil (uri, method, body = false) {
-  return async (dispatch, getState, {getToken}) => {
+  return async (dispatch, getState, {getToken, config}) => {
     const token = getToken()
     console.log(uri, method, !!token, body)
-    return fetch(`${development.host}${uri}`, {
+    return fetch(`${config.host}${uri}`, {
       method,
       headers: {
         'Content-Type': 'application/json',

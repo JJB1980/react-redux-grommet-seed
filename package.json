@@ -1,6 +1,6 @@
 {
   "name": "react-redux-grommet-seed",
-  "version": "2.0.4",
+  "version": "0.1.1",
   "description": "React + Redux + Grommet seed",
   "main": "src/app.jsx",
   "scripts": {
@@ -9,6 +9,9 @@
     "test": "./node_modules/.bin/mocha ./test/suite/**/* --recursive --compilers js:babel-core/register --require babel-polyfill --require ignore-styles --require ./test/bootstrap.js ",
     "autotest": "./node_modules/.bin/mocha ./test/suite/**/* --recursive --require ignore-styles --require ./test/bootstrap.js --watch",
     "lint": "node_modules/.bin/eslint . --fix",
+    "docker-build": "docker build -t jjb1980/grommet-seed . && docker push jjb1980/grommet-seed",
+    "docker-run": "docker run --rm --name react-grommet -p 80:80 -d jjb1980/grommet-seed",
+    "docker-stop": "docker stop react-grommet",
     "coverage": "node_modules/.bin/nyc npm test",
     "start": "node ./server"
   },
@@ -16,7 +19,7 @@
     "type": "git",
     "url": "https://github.com/JJB1980/react-redux-grommet-seed.git"
   },
-  "author": "John <info@bowdentechnology.com.au>",
+  "author": "John <john@bowdentechnology.com.au>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/JJB1980/react-redux-grommet-seed/issues"
@@ -108,6 +111,7 @@
     "standard": "^11.0.0",
     "style-loader": "^0.20.2",
     "webpack": "v3",
+    "webpack-bundle-analyzer": "^2.13.1",
     "webpack-cli": "^2.0.11",
     "webpack-dev-server": "v2",
     "webpack-merge": "^4.1.1"

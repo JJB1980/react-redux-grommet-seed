@@ -2,6 +2,7 @@ const webpack = require('webpack') // eslint-disable-line
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 var config = {
   context: path.join(__dirname, './src'), // `__dirname` is root of project and `src` is source
@@ -25,6 +26,10 @@ var config = {
     new HtmlWebpackPlugin({
       template: path.join(__dirname, './src', '/index.html')
     }),
+    new webpack.DefinePlugin({
+      'zApp.environment':  JSON.stringify(process.env.NODE_ENV)
+    }),
+    process.env.ANALYSE ? new BundleAnalyzerPlugin() : () => {},
     // new HtmlWebpackPlugin({
     //   title: 'Caching'
     // }),

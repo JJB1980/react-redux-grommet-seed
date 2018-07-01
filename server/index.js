@@ -8,6 +8,7 @@ const app = express();
 app.use(compression());
 app.use(express.static(path.join(process.cwd(), 'dist')));
 app.use(morgan('tiny'));
+app.enable('view cache');
 
 /* serves main page */
 app.get('*', function (req, res) {
