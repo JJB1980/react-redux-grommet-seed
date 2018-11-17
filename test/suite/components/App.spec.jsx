@@ -15,9 +15,11 @@ import {LoginForm} from '~/src/login/components/LoginForm'
 import reducer from '~/src/reducers'
 import services from '~/src/services'
 
-describe('<App />', () => {
-  let wrapper
+const thunkWithExtraArgument = thunk.withExtraArgument(services)
+const enhancers = compose(applyMiddleware(thunkWithExtraArgument))
+const store = createStore(reducer, enhancers)
 
+describe('<App />', () => {
   const init = (token) => {
     // wrapper = shallow(<App />)
     const props = {
@@ -26,10 +28,6 @@ describe('<App />', () => {
         pathname: '/login'
       }
     }
-    const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-    const thunkWithExtraArgument = thunk.withExtraArgument(services)
-    const enhancers = composeEnhancers(applyMiddleware(thunkWithExtraArgument))
-    const store = createStore(reducer, enhancers)
     const component = <Provider store={store}>
       <Router>
         <App {...props} />
