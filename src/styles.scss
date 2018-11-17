@@ -5,9 +5,10 @@
 $brand-color: #5186F0;
 $brand-link-color: #5186F0;
 $brand-accent-colors: set-nth($brand-accent-colors, 1, #4FDCC3);
-$brand-neutral-colors: (#34393E, #14A0B9, #501EB4, #49516F);
+$brand-neutral-colors: (#34393E, #5186F0, #501EB4, #49516F);
 $brand-font-family: 'Noto Sans', Arial, sans-serif;
 $text-strong-font-weight: 600;
+$backup: #14A0B9;
 
 @import '~grommet/scss/grommet-core/index';
 // @import '~grommet/scss/vanilla/objects.button-vanilla';

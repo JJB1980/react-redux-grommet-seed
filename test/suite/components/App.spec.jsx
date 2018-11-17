@@ -2,48 +2,64 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import {BrowserRouter as Router } from 'react-router-dom'
 
+import { createStore, applyMiddleware, compose } from 'redux'
+import thunk from 'redux-thunk'
+
 import GrommetApp from 'grommet/components/App'
+import Header from 'grommet/components/Header'
+import Title from 'grommet/components/Title'
+import Split from 'grommet/components/Split'
 
 import {App} from '~/src/components/App'
 import {LoginForm} from '~/src/login/components/LoginForm'
-import configureStore from '~/src/store'
+import reducer from '~/src/reducers'
+import services from '~/src/services'
 
 describe('<App />', () => {
   let wrapper
 
-  beforeEach(() => {
-    wrapper = shallow(<App />)
-  })
-
-  it('should render the GrommetApp', () => {
-    expect(wrapper.find(GrommetApp)).to.exist()
-  })
-
-  it('should render Header', () => {
-    expect(wrapper.find('Header').exists()).to.be.true()
-  })
-
-  it('should render Title', () => {
-    expect(wrapper.find('Header').html()).to.contain('Sample Title')
-  })
-
-  it('should render Split', () => {
-    expect(wrapper.find('Split').exists()).to.be.true()
-  })
-
-  it('should render Login', () => {
+  const init = (token) => {
+    // wrapper = shallow(<App />)
     const props = {
+      token,
       location: {
         pathname: '/login'
       }
     }
-    const store = configureStore()
+    const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+    const thunkWithExtraArgument = thunk.withExtraArgument(services)
+    const enhancers = composeEnhancers(applyMiddleware(thunkWithExtraArgument))
+    const store = createStore(reducer, enhancers)
     const component = <Provider store={store}>
       <Router>
         <App {...props} />
       </Router>
     </Provider>
-    wrapper = mount(component)
+    return mount(component)
+  }
+
+  it('should render the GrommetApp', () => {
+    const wrapper = init('abc')
+    expect(wrapper.find(GrommetApp).exists()).to.be.true()
+  })
+
+  it('should render Header', () => {
+    const wrapper = init('abc')
+    expect(wrapper.find(Header).exists()).to.be.true()
+  })
+
+  it('should render Title', () => {
+    const wrapper = init('abc')
+    expect(wrapper.find(Header).html()).to.contain('Grommet App')
+  })
+
+  it('should render Split', () => {
+    const wrapper = init('abc')
+    expect(wrapper.find(Split).exists()).to.be.true()
+  })
+
+  it('should render Login', () => {
+    const wrapper = init('')
     expect(wrapper.find(LoginForm).exists()).to.be.true()
   })
 })

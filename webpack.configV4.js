@@ -1,52 +1,72 @@
-const path = require('path')
+
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
-  entry: {
-    app: './src/app.jsx'
-  },
-  devtool: 'inline-source-map',
-  devServer: {
-    contentBase: './dist'
-  },
-  plugins: [
-    new CleanWebpackPlugin(['dist']),
-    new HtmlWebpackPlugin({
-      title: 'Development'
-    })
+  entry: [
+    './src/index.js',
+    './src/index.html'
   ],
+
   output: {
-    filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    filename: '[name].js',
+    chunkFilename: '[name].js',
+    path: __dirname + '/dist'
   },
+
+  optimization: {
+    splitChunks: {
+      chunks: 'all'
+    }
+  },
+
+  mode: 'development',
+
   module: {
     rules: [
       {
-        test: /\.(html)$/,
-        use: {
-          loader: 'html-loader',
-          options: {
-            attrs: [':data-src']
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: ['babel-loader']
+      },
+      {
+        test:
+        /\.(scss|css)$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'sass-loader'
+        ]
+      },
+      {
+        test: /\.html$/,
+        use: [
+          {
+            loader: "html-loader",
+            options: { minimize: true }
           }
-        }
-      },
-      {
-        test: /\.(js|jsx)$/, // Check for all js files
-        loader: 'babel-loader',
-        query: {
-          presets: [ 'babel-preset-es2015' ].map(require.resolve)
-        }
-      },
-      {
-        test: /\.scss$/,
-        loader: ExtractTextPlugin.extract([
-          'css-loader', 'sass-loader?includePaths[]=' + (path.resolve('./node_modules')) +
-              '&includePaths[]=' + path.resolve('./node_modules/grommet/node_modules')
-        ])
+        ]
       }
     ]
-  }
+  },
 
-}
+  resolve: {
+    extensions: ['*', '.js', '.jsx']
+  },
+
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/index.html',
+      filename: './index.html'
+    }),
+
+    new MiniCssExtractPlugin({
+      // Options
+      similar to the same options in webpackOptions.output
+      // both
+      options are optional
+      filename: "[name].css",
+      chunkFilename: "[id].css"
+    })
+  ]
+};

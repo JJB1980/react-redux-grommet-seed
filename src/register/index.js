@@ -286,7 +286,7 @@ export function updateProfile () {
       mobile: getMobile(state)
     }
 
-    const result = await dispatch(fetchUtil('user/updateProfile', 'POST', obj))
+    const result = await dispatch(fetchUtil('user/updateProfile', 'PATCH', obj))
     const {success, error} = await result.json()
 
     dispatch(fetching(false))
