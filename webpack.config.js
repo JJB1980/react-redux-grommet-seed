@@ -27,7 +27,7 @@ var config = {
       template: path.join(__dirname, './src', '/index.html')
     }),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV':  JSON.stringify(process.env.NODE_ENV)
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
     }),
     process.env.ANALYSE ? new BundleAnalyzerPlugin() : () => {},
     // new HtmlWebpackPlugin({

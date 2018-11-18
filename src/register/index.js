@@ -1,6 +1,6 @@
 import { fetchUtil, EMAIL_REGEX } from '../utils'
 import { RegisterState } from './records'
-import {getEmail as getLoginEmail} from '../login'
+// import {getEmail as getLoginEmail} from '../login'
 
 const NS = 'REGISTER_'
 
@@ -17,7 +17,7 @@ const CLEAR_FORM = `${NS}CLEAR_FORM`
 const VALID_EMAIL = `${NS}VALID_EMAIL`
 const FETCHING = `${NS}FETCHING`
 const SET_PROFILE = `${NS}SET_PROFILE`
-const PROFILE_UPDATED = `${NS}PROFILE_UPDATED`
+// const PROFILE_UPDATED = `${NS}PROFILE_UPDATED`
 const PASSWORD_UPDATED = `${NS}PASSWORD_UPDATED`
 const PASSWORD_UPDATE_ERROR = `${NS}PASSWORD_UPDATE_ERROR`
 
@@ -278,7 +278,7 @@ export function updateProfile () {
   return async (dispatch, getState) => {
     dispatch(fetching(true))
 
-    const state= getState()
+    const state = getState()
     const obj = {
       firstname: getFirstName(state),
       lastname: getLastName(state),

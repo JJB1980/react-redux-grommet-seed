@@ -83,16 +83,16 @@ export function sortUsers (ascending, which) {
           return ascending ? a.email < b.email : a.email > b.email
 
         case 1: {
-          const {firstname : a_val} = a
-          const {firstname : b_val} = b
+          const {firstname: aVal} = a
+          const {firstname: bVal} = b
 
-          return ascending ? a_val.toUpperCase() < b_val.toUpperCase() : a_val.toUpperCase() > b_val.toUpperCase()
+          return ascending ? aVal.toUpperCase() < bVal.toUpperCase() : aVal.toUpperCase() > bVal.toUpperCase()
         }
         case 2: {
-          const {lastname : a_val} = a
-          const {lastname : b_val} = b
+          const {lastname: aVal} = a
+          const {lastname: bVal} = b
 
-          return ascending ? a_val.toUpperCase() < b_val.toUpperCase() : a_val.toUpperCase() > b_val.toUpperCase()
+          return ascending ? aVal.toUpperCase() < bVal.toUpperCase() : aVal.toUpperCase() > bVal.toUpperCase()
         }
         case 4:
           return ascending ? a.admin < b.admin : a.admin > b.admin

@@ -12,10 +12,10 @@ module.exports = merge(common, {
     // new webpack.optimize.DedupePlugin(), // dedupe similar code
     new webpack.optimize.UglifyJsPlugin({
       compress: {
-          warnings: false
-      }
-      , sourceMap: false
+        warnings: false
+      },
+      sourceMap: false
     }), // minify everything
-    new webpack.optimize.AggressiveMergingPlugin(), // Merge chunks
+    new webpack.optimize.AggressiveMergingPlugin() // Merge chunks
   ]
 })

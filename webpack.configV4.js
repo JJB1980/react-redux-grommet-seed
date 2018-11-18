@@ -1,6 +1,6 @@
-
-const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const path = require('path')
 
 module.exports = {
   entry: [
@@ -11,7 +11,7 @@ module.exports = {
   output: {
     filename: '[name].js',
     chunkFilename: '[name].js',
-    path: __dirname + '/dist'
+    path: path.join(__dirname, '/dist')
   },
 
   optimization: {
@@ -42,7 +42,7 @@ module.exports = {
         test: /\.html$/,
         use: [
           {
-            loader: "html-loader",
+            loader: 'html-loader',
             options: { minimize: true }
           }
         ]
@@ -61,12 +61,10 @@ module.exports = {
     }),
 
     new MiniCssExtractPlugin({
-      // Options
-      similar to the same options in webpackOptions.output
-      // both
-      options are optional
-      filename: "[name].css",
-      chunkFilename: "[id].css"
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: '[name].css',
+      chunkFilename: '[id].css'
     })
   ]
-};
+}

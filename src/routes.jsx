@@ -26,7 +26,7 @@ export default function Routes (props) {
       <Route exact path='/hello' component={Hello} />
       <Route exact path='/profile' component={Profile} />
       {isAdmin && <Route exact path='/users' component={UsersForm} />}
-      <Route nomatch component={() => <Box align="center">404</Box>} />
+      <Route nomatch component={() => <Box align='center'>404</Box>} />
     </Switch>
   )
 }

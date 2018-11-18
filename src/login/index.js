@@ -1,7 +1,7 @@
 import { fetchUtil } from '../utils'
 import { LoginState } from './records'
 
-import { resizeWindow } from '~/src/components'
+// import { resizeWindow } from '~/src/components'
 
 const NS = 'LOGIN_'
 
@@ -151,7 +151,6 @@ export function getFirstname (state) {
 export function getLastname (state) {
   return root(state).lastname
 }
-
 
 // thunks -----------
 

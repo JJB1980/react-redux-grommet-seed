@@ -22,7 +22,6 @@ export function setSmall (flag) {
   return { type: SMALL, payload: flag }
 }
 
-
 // selectors --------
 
 export function isSmall (state) {

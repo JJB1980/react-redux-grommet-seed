@@ -1,13 +1,14 @@
 import React from 'react'
-import { Provider } from 'react-redux'
-import {BrowserRouter as Router } from 'react-router-dom'
+import {Provider} from 'react-redux'
+import {BrowserRouter as Router} from 'react-router-dom'
+import {mount} from 'enzyme'
 
-import { createStore, applyMiddleware, compose } from 'redux'
+import {createStore, applyMiddleware, compose} from 'redux'
 import thunk from 'redux-thunk'
 
 import GrommetApp from 'grommet/components/App'
 import Header from 'grommet/components/Header'
-import Title from 'grommet/components/Title'
+// import Title from 'grommet/components/Title'
 import Split from 'grommet/components/Split'
 
 import {App} from '~/src/components/App'
